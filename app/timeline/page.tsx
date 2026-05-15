@@ -1,0 +1,2 @@
+import { Section } from '@/components/Cards'; import { topics } from '@/lib/data';
+export default function Timeline(){return <main><Section eyebrow="Chronology" title="Ancient to early modern timeline"><div className="space-y-4">{topics.flatMap(t=>t.timeline.map(e=>({t,e}))).map(({t,e})=><div className="archive-card rounded-2xl p-5" key={t.id+e.title}><p className="text-gold">{e.date} • {t.title}</p><h2 className="font-serif text-2xl">{e.title}</h2><p className="text-vellum/70">{e.description}</p></div>)}</div></Section></main>}

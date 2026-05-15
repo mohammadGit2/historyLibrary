@@ -1,0 +1,2 @@
+import { Section } from '@/components/Cards'; import { places } from '@/lib/data';
+export default function Places(){return <main><Section eyebrow="Historical geography" title="Cities, regions and routes"><div className="grid gap-5 md:grid-cols-3">{places.map(p=><article className="archive-card rounded-3xl p-6" key={p.id}><h2 className="font-serif text-3xl">{p.name}</h2><p className="text-gold">{p.historicalRegion} • {p.currentCountry}</p><p className="mt-3 text-vellum/70">{p.description}</p></article>)}</div></Section></main>}

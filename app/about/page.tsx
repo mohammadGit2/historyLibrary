@@ -1,0 +1,1 @@
+export default function About(){return <main className="mx-auto max-w-4xl px-4 py-12"><h1 className="font-serif text-5xl">About Bayt al-Tareekh</h1><p className="mt-6 text-xl leading-9 text-vellum/75">A professional historical knowledge platform combining library, museum and atlas experiences while keeping sources, rights and citations at the center.</p></main>}
