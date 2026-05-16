@@ -1,0 +1,18 @@
+[build]
+  command = "node scripts/build-netlify.mjs"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+  included_files = ["public/archive-data.json"]
+
+[[redirects]]
+  from = "/api/archive-search"
+  to = "/.netlify/functions/archive-search"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/local.html"
+  status = 200

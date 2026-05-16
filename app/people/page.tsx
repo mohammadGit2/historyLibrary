@@ -1,0 +1,2 @@
+import { Section } from '@/components/Cards'; import { people } from '@/lib/data';
+export default function People(){return <main><Section eyebrow="Biographies" title="Scholars, rulers, travelers and historians"><div className="grid gap-5 md:grid-cols-2">{people.map(p=><article className="archive-card rounded-3xl p-6" key={p.id}><h2 className="font-serif text-3xl">{p.name}</h2><p className="text-gold">{p.role} • {p.region}</p><p className="mt-3 text-vellum/70">{p.biography}</p></article>)}</div></Section></main>}

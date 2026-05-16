@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bayt al-Tareekh: The Living History Library</title>
+  <style>
+    :root { --archive:#07111f; --ink:#10233f; --parchment:#f3ead7; --vellum:#fff8e8; --gold:#d7a94b; --copper:#a9693d; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin:0; background:var(--archive); color:var(--vellum); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    body::before { content:""; position:fixed; inset:0; pointer-events:none; opacity:.26; background-image: radial-gradient(circle at 20% 15%, rgba(215,169,75,.33), transparent 25rem), radial-gradient(circle at 85% 10%, rgba(65,105,132,.32), transparent 28rem), linear-gradient(120deg, rgba(255,255,255,.04) 1px, transparent 1px); background-size:auto, auto, 74px 74px; z-index:-1; }
+    a { color:inherit; text-decoration:none; }
+    header { position:sticky; top:0; z-index:20; border-bottom:1px solid rgba(215,169,75,.22); background:rgba(7,17,31,.88); backdrop-filter: blur(16px); }
+    nav, section { width:min(1180px, calc(100% - 32px)); margin:auto; }
+    nav { min-height:64px; display:flex; align-items:center; justify-content:space-between; gap:18px; }
+    .brand, h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; }
+    .brand { font-weight:800; font-size:1.2rem; letter-spacing:.02em; }
+    .gold { color:var(--gold); }
+    .navlinks { display:flex; gap:16px; color:rgba(255,248,232,.76); font-size:.94rem; flex-wrap:wrap; }
+    .hero { padding:82px 0 54px; display:grid; grid-template-columns:1.08fr .92fr; gap:38px; align-items:center; }
+    h1 { font-size:clamp(3rem, 7vw, 6.7rem); line-height:.96; margin:0; }
+    h2 { font-size:clamp(2rem, 4vw, 4rem); margin:0 0 24px; line-height:1; }
+    h3 { font-size:1.55rem; margin:0; }
+    .eyebrow { color:var(--gold); text-transform:uppercase; letter-spacing:.34em; font-size:.76rem; margin:0 0 12px; }
+    .subtitle { color:rgba(255,248,232,.76); font-size:1.25rem; max-width:760px; line-height:1.7; }
+    .card { border:1px solid rgba(215,169,75,.24); background:linear-gradient(145deg, rgba(255,248,232,.09), rgba(255,248,232,.035)); box-shadow:0 24px 70px rgba(0,0,0,.28); backdrop-filter: blur(12px); border-radius:28px; }
+    .parchment { background:linear-gradient(135deg,#fff8e8,#ead9b7); color:var(--ink); border-radius:24px; }
+    .search { padding:8px; display:flex; gap:10px; margin-top:32px; }
+    .search input { flex:1; min-height:58px; border:1px solid rgba(215,169,75,.28); background:rgba(255,248,232,.98); color:var(--ink); border-radius:20px; padding:0 18px; font-size:1rem; outline:none; }
+    .search button, .button { border:0; border-radius:18px; background:var(--gold); color:var(--archive); padding:0 24px; min-height:54px; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; }
+    .hero-panel { padding:24px; min-height:410px; display:grid; align-items:center; background-image: linear-gradient(rgba(215,169,75,.16) 1px, transparent 1px), linear-gradient(90deg, rgba(215,169,75,.16) 1px, transparent 1px); background-size:34px 34px; }
+    .hero-panel .parchment { padding:28px; }
+    .chips { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+    .chip { border:1px solid rgba(215,169,75,.24); background:rgba(255,248,232,.08); color:rgba(255,248,232,.76); border-radius:999px; padding:8px 12px; font-size:.86rem; }
+    .parchment .chip { background:var(--archive); color:var(--vellum); }
+    section { padding:52px 0; }
+    .grid { display:grid; gap:18px; }
+    .cols-5 { grid-template-columns:repeat(5,1fr); }
+    .cols-4 { grid-template-columns:repeat(4,1fr); }
+    .cols-3 { grid-template-columns:repeat(3,1fr); }
+    .tile { padding:22px; transition:.18s ease; }
+    .tile:hover { transform:translateY(-3px); border-color:rgba(215,169,75,.72); }
+    .book img { width:100%; aspect-ratio: 2 / 2.9; object-fit:cover; border-radius:20px; margin-bottom:14px; }
+    .muted { color:rgba(255,248,232,.68); line-height:1.65; }
+    .tag { display:inline-flex; color:var(--gold); background:rgba(215,169,75,.12); border-radius:999px; padding:6px 10px; font-size:.78rem; margin:0 6px 8px 0; }
+    .map { position:relative; min-height:430px; overflow:hidden; background-image: linear-gradient(rgba(215,169,75,.17) 1px, transparent 1px), linear-gradient(90deg, rgba(215,169,75,.17) 1px, transparent 1px); background-size:34px 34px; }
+    .marker { position:absolute; border-radius:999px; background:var(--gold); color:var(--archive); padding:9px 13px; font-weight:800; box-shadow:0 10px 30px rgba(0,0,0,.35); }
+    .timeline { display:flex; gap:14px; overflow-x:auto; padding-bottom:10px; }
+    .event { min-width:190px; padding:18px; }
+    .bar { height:7px; border-radius:999px; background:var(--gold); margin-bottom:12px; }
+    .results { display:none; }
+    .results.active { display:block; }
+    .source-six { grid-template-columns:repeat(6,1fr); }
+    .source-six .tile strong { display:block; font-size:1.8rem; color:var(--gold); margin-bottom:8px; }
+    .rtl { direction:rtl; font-family:"Noto Nastaliq Urdu", Georgia, serif; }
+    footer { border-top:1px solid rgba(215,169,75,.22); color:rgba(255,248,232,.65); padding:28px 16px; text-align:center; }
+    @media (max-width: 920px) { .hero { grid-template-columns:1fr; padding-top:54px; } .cols-5, .cols-4, .cols-3, .source-six { grid-template-columns:repeat(2,1fr); } .search { flex-direction:column; } .navlinks { display:none; } }
+    @media (max-width: 560px) { nav, section { width:min(100% - 22px, 1180px); } .cols-5, .cols-4, .cols-3, .source-six { grid-template-columns:1fr; } h1 { font-size:3rem; } }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a class="brand" href="#top">Bayt al-Tareekh <span class="gold">بيت التاريخ</span></a>
+      <div class="navlinks">
+        <a href="#books">Books</a><a href="#maps">Maps</a><a href="#images">Images</a><a href="#urdu">Urdu</a><a href="#policy">Sources</a>
+      </div>
+    </nav>
+  </header>
+  <main id="top">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">The Living History Library</p>
+        <h1>Explore Real History Through Books, Maps & Archives</h1>
+        <p class="subtitle">Islamic, Medieval, Ancient, Urdu, and World History from real sources.</p>
+        <form class="search card" id="searchForm">
+          <input id="searchInput" placeholder="Search Abbasid Caliphate, Ibn Battuta, Al-Andalus, Mongols, Ottoman Empire, Indus Valley…" />
+          <button>Enter the Archive</button>
+        </form>
+        <p class="muted">AI is only used to summarize, tag, translate, clean OCR and recommend. It never pretends to be an original source.</p>
+      </div>
+      <aside class="hero-panel card">
+        <div class="parchment">
+          <p class="eyebrow" style="color:var(--copper)">Archive principle</p>
+          <h2>Sources first. Stories second.</h2>
+          <p>Every topic separates primary sources, secondary scholarship, AI-enhanced summaries, user notes, images, maps and citations.</p>
+          <div class="chips"><span class="chip">Books</span><span class="chip">PDFs</span><span class="chip">Urdu</span><span class="chip">Maps</span><span class="chip">Manuscripts</span><span class="chip">Timelines</span></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="results" id="results">
+      <p class="eyebrow">Archive search</p>
+      <h2 id="resultTitle">Results</h2>
+      <div class="grid source-six" id="sourceModel"></div>
+      <div class="grid cols-3" id="resultCards" style="margin-top:22px"></div>
+    </section>
+
+    <section>
+      <p class="eyebrow">Begin browsing</p>
+      <h2>Quick categories</h2>
+      <div class="grid cols-5" id="categories"></div>
+    </section>
+
+    <section>
+      <p class="eyebrow">Curated paths</p>
+      <h2>Featured collections</h2>
+      <div class="grid cols-3" id="collections"></div>
+    </section>
+
+    <section id="books">
+      <p class="eyebrow">Book of the Day</p>
+      <h2>Public-domain/open-access starter record</h2>
+      <div class="grid" style="grid-template-columns: minmax(240px,340px) 1fr; align-items:stretch" id="bookDay"></div>
+    </section>
+
+    <section id="expanded-books">
+      <p class="eyebrow">Expanded library</p>
+      <h2>More books: ancient, Islamic, Urdu, epics and biographies</h2>
+      <div class="grid cols-4" id="expandedBooks"></div>
+    </section>
+
+    <section id="personalities">
+      <p class="eyebrow">Great personalities</p>
+      <h2>Scholars, rulers, travelers, scientists and dramatic lives</h2>
+      <div class="grid cols-3" id="personalityGrid"></div>
+    </section>
+
+    <section id="legends">
+      <p class="eyebrow">Legends and story traditions</p>
+      <h2>Interesting stories, clearly separated from factual history</h2>
+      <div class="grid cols-3" id="legendGrid"></div>
+    </section>
+
+    <section id="maps">
+      <p class="eyebrow">Historical atlas</p>
+      <h2>Explore by Map</h2>
+      <div class="map card">
+        <span class="marker" style="left:20%; top:43%">Baghdad</span>
+        <span class="marker" style="left:42%; top:31%; background:var(--vellum)">Silk Road</span>
+        <span class="marker" style="left:12%; top:58%; background:var(--copper); color:white">Cairo</span>
+        <span class="marker" style="left:62%; top:52%">Delhi</span>
+        <div class="card" style="position:absolute; left:24px; right:24px; bottom:24px; padding:18px; background:rgba(7,17,31,.86)">Clickable cities, empire overlays, trade routes, scholarly journeys, pilgrimage routes and before/after comparisons are scaffolded for verified map data.</div>
+      </div>
+    </section>
+
+    <section>
+      <p class="eyebrow">Chronology</p>
+      <h2>Explore by Timeline</h2>
+      <div class="timeline" id="timeline"></div>
+    </section>
+
+    <section id="images">
+      <p class="eyebrow">Visual archive</p>
+      <h2>Images & Manuscripts</h2>
+      <div class="grid cols-3" id="imagesGrid"></div>
+    </section>
+
+    <section id="urdu" class="rtl">
+      <p class="eyebrow">Urdu mode</p>
+      <h2>اردو کتب خانہ اور تاریخی مطالعہ</h2>
+      <div class="card tile"><p class="muted" style="font-size:1.25rem">RTL ترتیب، اردو تلاش، اردو خلاصے، نستعلیق طرز، اردو ٹائم لائن، لغت اور انگریزی/اردو ساتھ ساتھ مطالعہ کے لئے تیار۔</p><div class="chips" id="urduLabels"></div></div>
+    </section>
+
+    <section id="policy">
+      <p class="eyebrow">Source policy</p>
+      <h2>Copyright-safe and citation-first</h2>
+      <div class="card tile muted">
+        <p>We use public-domain, open-license, permission-safe content, or metadata links to source catalogs. Copyrighted books are not hosted without permission.</p>
+        <p>AI summaries are not original sources and must be labeled: “AI-enhanced summary based on listed sources.” Every image must show source, creator where known, license and attribution.</p>
+      </div>
+    </section>
+  </main>
+  <footer>Bayt al-Tareekh local preview • Run with <code>npm run local</code> or <code>node scripts/local-server.mjs</code></footer>
+  <script>
+    const covers = ['#d7a94b','#a9693d','#274869','#62502d','#6b2535','#315142'];
+    const svgCover = (i, title) => `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="420" height="620"><rect width="100%" height="100%" fill="${covers[i%covers.length]}"/><path d="M35 42h350v536H35z" fill="none" stroke="#fff8e8" stroke-width="8" opacity=".55"/><path d="M70 90h280M70 125h220M70 490h280" stroke="#fff8e8" stroke-width="6" opacity=".7"/><text x="210" y="275" text-anchor="middle" font-family="Georgia" font-size="34" fill="#fff8e8">${title.replace(/&/g,'and').slice(0,34)}</text><text x="210" y="330" text-anchor="middle" font-family="Georgia" font-size="18" fill="#fff8e8">Verified Metadata</text></svg>`)}`;
+    const topics = ['Abbasid Caliphate','Ottoman Empire','Mughal Empire','Al-Andalus','Ibn Battuta','Ibn Khaldun','Baghdad','House of Wisdom','Salahuddin Ayyubi','Mongol Empire','Crusades','Ancient Egypt','Roman Empire','Persian Empire','Indus Valley Civilization','Silk Road'];
+    const books = [
+      ['The History of al-Tabari','Al-Tabari','English / Arabic','Islamic History','Internet Archive catalog search','Source-linked metadata; verify edition rights before hosting'],
+      ['The Travels of Ibn Battuta','Ibn Battuta / H. A. R. Gibb','English / Arabic','Medieval World','Internet Archive catalog search','Open/public catalog links where available'],
+      ['The Muqaddimah','Ibn Khaldun','English / Arabic / Urdu metadata','Historiography','Internet Archive catalog search','Edition rights vary by translation'],
+      ['Decline and Fall of the Roman Empire','Edward Gibbon','English','Ancient / Late Antique','Project Gutenberg','Public domain'],
+      ['The Histories','Herodotus','English / Greek','Ancient History','Project Gutenberg','Public domain'],
+      ['Plutarch Lives','Plutarch','English / Greek','Ancient Biography','Project Gutenberg','Public domain editions available'],
+      ['The Iliad','Homer','English / Greek','Ancient Epic Tradition','Project Gutenberg','Public domain'],
+      ['The Odyssey','Homer','English / Greek','Ancient Epic Tradition','Project Gutenberg','Public domain'],
+      ['The Ramayana','Valmiki / translated editions','English / Sanskrit','Ancient Indian Epic Tradition','Project Gutenberg','Public domain editions available'],
+      ['The Mahabharata','Vyasa / translated editions','English / Sanskrit','Ancient Indian Epic Tradition','Project Gutenberg','Public domain editions available'],
+      ['Epic of Gilgamesh metadata','Ancient Mesopotamian tradition','English / Akkadian metadata','Ancient Mesopotamia','Internet Archive catalog','Metadata only — translation rights vary'],
+      ['Baburnama catalog metadata','Babur','English / Persian metadata','Mughal India','Internet Archive catalog','Metadata only — verify edition rights'],
+      ['Tareekh-e-Islam catalog record','Multiple Urdu authors','Urdu','Islamic History','Archive/Rekhta catalog search','Metadata only — rights must be verified']
+    ];
+    const categories = ['Islamic History','Medieval World','Ancient Civilizations','Urdu History Books','Maps & Manuscripts','Empires & Dynasties','Scholars & Scientists','Travelers & Explorers','Battles & Events','Cities & Architecture'];
+    const collections = ['Rise of Islam','Umayyad & Abbasid Eras','Al-Andalus','Ottoman Archives','Mughal India','Seljuk & Mamluk Worlds','Crusades from Multiple Sources','Muslim Scientists and Golden Age','Ancient Egypt, Mesopotamia, Persia, Greece, Rome, China, India'];
+    const sourceItems = ['Primary sources','Secondary sources','AI summaries','User notes','Images/maps','Citations'];
+    const personalityFallback = [
+      { name:'Ibn Battuta', role:'Traveler', era:'14th century', region:'Morocco to China', story:'Sea voyages, court appointments, dangerous roads and surprises in unfamiliar cities, always linked back to the Rihla.' },
+      { name:'Al-Biruni', role:'Scholar and polymath', era:'973–c.1050', region:'Khwarazm, Ghazni and India', story:'Languages, astronomy, measurement and cross-cultural study make a verified scientist profile.' },
+      { name:'Salahuddin Ayyubi', role:'Ruler and military leader', era:'1137–1193', region:'Egypt, Syria and the Levant', story:'Leadership, coalition-building, Jerusalem and reputation across Muslim and European sources.' },
+      { name:'Hatshepsut', role:'Pharaoh', era:'15th century BCE', region:'Ancient Egypt', story:'Kingship, monuments, trade expeditions and later reshaping of memory.' },
+      { name:'Hannibal Barca', role:'Carthaginian general', era:'247–183 BCE', region:'Carthage, Alps and Italy', story:'The Alpine crossing is thrilling, but Polybius/Livy traditions and modern analysis must be separated.' },
+      { name:'Cleopatra VII', role:'Ptolemaic ruler', era:'69–30 BCE', region:'Egypt and Rome', story:'A page separating Roman propaganda, later legend and political history.' }
+    ];
+    const legendFallback = [
+      { title:'Gilgamesh and the search for life', culture:'Mesopotamian epic tradition', note:'Legend/literature, not simple factual history.', hook:'A king, a friend, a forest journey and a question humans still ask.' },
+      { title:'The Trojan War cycle', culture:'Greek epic tradition', note:'Epic tradition with archaeology kept separate.', hook:'Achilles, Hector, Odysseus and Helen in a literature-and-memory room.' },
+      { title:'Rustam and the Shahnameh heroes', culture:'Persian epic tradition', note:'Epic/literary tradition, not political chronicle.', hook:'Heroic battles, family tragedy and kingship ideals from Persianate literature.' }
+    ];
+    const aliases = { andalus:'Al-Andalus', mughal:'Mughal Empire', 'harun rashid':'Abbasid Caliphate', 'baghdad house wisdom':'House of Wisdom', 'عباسی':'Abbasid Caliphate', 'اندلس':'Al-Andalus' };
+    const card = (html, cls='card tile') => `<article class="${cls}">${html}</article>`;
+    const bookCard = (b, i) => card(`<img src="${svgCover(i,b[0])}" alt=""><span class="tag">${b[2]}</span><span class="tag">${b[5].includes('Metadata') ? 'metadata only' : b[5]}</span><h3>${b[0]}</h3><p class="muted">${b[1]} • ${b[3]}</p><p class="muted">Source: ${b[4]}</p>`, 'card tile book');
+    document.getElementById('categories').innerHTML = categories.map((x) => card(`<h3>${x}</h3><p class="muted">Open ${x.toLowerCase()} records, maps, books and source notes.</p>`)).join('');
+    document.getElementById('collections').innerHTML = collections.map((x) => card(`<h3>${x}</h3><p class="muted">Legal reading bundle with bibliography, timeline, maps and study roadmap.</p>`, 'parchment tile')).join('');
+    document.getElementById('bookDay').innerHTML = `${bookCard(books[3],3)}${card(`<p class="eyebrow">Open reading</p><h2>${books[3][0]}</h2><p class="muted">Author: ${books[3][1]} • Language: ${books[3][2]} • Source: ${books[3][4]}</p><p class="muted">Reader MVP includes page navigation, zoom, sepia/dark modes, citation copy, bookmarks placeholder and rights-aware downloads.</p><a class="button" href="#books">Read Now</a>`)}`;
+    document.getElementById('expandedBooks').innerHTML = books.slice(0, 12).map(bookCard).join('');
+    const renderPersonalities = (items) => { document.getElementById('personalityGrid').innerHTML = items.slice(0, 9).map((p) => card(`<span class="tag">${p.role}</span><h3>${p.name}</h3><p class="muted">${p.era} • ${p.region}</p><p class="muted">${p.story}</p>`)).join(''); };
+    const renderLegends = (items) => { document.getElementById('legendGrid').innerHTML = items.slice(0, 9).map((l) => card(`<span class="tag">${l.culture}</span><h3>${l.title}</h3><p class="muted"><strong>Label:</strong> ${l.note}</p><p class="muted">${l.hook}</p>`, 'parchment tile')).join(''); };
+    renderPersonalities(personalityFallback);
+    renderLegends(legendFallback);
+    document.getElementById('timeline').innerHTML = ['3000 BCE Mesopotamia','2500 BCE Indus Valley','550 BCE Persia','27 BCE Rome','750 Abbasids','1206 Mongols','1299 Ottomans','1526 Mughals'].map((x) => card(`<div class="bar"></div><strong>${x}</strong>`, 'card event')).join('');
+    document.getElementById('imagesGrid').innerHTML = ['Digitized manuscript folio placeholder','Historical map source placeholder','Islamic architecture image placeholder'].map((x,i) => card(`<img src="${svgCover(i+8,x)}" alt="" style="width:100%;border-radius:20px;margin-bottom:14px"><h3>${x}</h3><p class="muted">Source, creator, license and attribution must be verified before publication.</p>`)).join('');
+    document.getElementById('urduLabels').innerHTML = ['تلاش کریں','کتب خانہ','اسلامی تاریخ','قدیم تاریخ','نقشے','مخطوطات','شخصیات','سلطنتیں','مکمل کہانی','حوالہ جات','مطالعہ شروع کریں'].map((x) => `<span class="chip">${x}</span>`).join('');
+    document.getElementById('sourceModel').innerHTML = sourceItems.map((x,i) => card(`<strong>0${i+1}</strong>${x}`)).join('');
+    async function loadArchiveData() {
+      try {
+        const response = await fetch('/archive-data.json', { cache:'no-store' });
+        if (!response.ok) throw new Error('archive data unavailable');
+        const archive = await response.json();
+        const apiBooks = archive.books.map((b) => [b.title, b.author, b.language, b.era, b.source, b.license]);
+        document.getElementById('expandedBooks').innerHTML = apiBooks.slice(0, 16).map(bookCard).join('');
+        renderPersonalities(archive.personalities);
+        renderLegends(archive.legends);
+      } catch (error) {
+        console.warn('Using built-in archive preview data', error);
+      }
+    }
+    loadArchiveData();
+
+    document.getElementById('searchForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const raw = document.getElementById('searchInput').value.trim();
+      const q = raw.toLowerCase();
+      const match = aliases[q] || topics.find((topic) => topic.toLowerCase().includes(q) || q.includes(topic.toLowerCase())) || raw || 'Abbasid Caliphate';
+      document.getElementById('results').classList.add('active');
+      document.getElementById('resultTitle').textContent = `Results for “${raw || match}”`;
+      try {
+        const response = await fetch(`/api/archive-search?q=${encodeURIComponent(raw || match)}`, { cache:'no-store' });
+        if (!response.ok) throw new Error('function unavailable');
+        const data = await response.json();
+        const apiBooks = data.books.map((b) => [b.title, b.author, b.language, b.era, b.source, b.license]);
+        const topicCards = data.topics.slice(0, 3).map((t) => card(`<p class="eyebrow">Topic</p><h3>${t.title}</h3><p class="muted">${t.summary}</p><p class="muted"><strong>Story mode:</strong> ${t.story}</p>`)).join('');
+        const personalityCards = data.personalities.slice(0, 3).map((p) => card(`<p class="eyebrow">Great personality</p><h3>${p.name}</h3><p class="muted">${p.role} • ${p.era}</p><p class="muted">${p.story}</p>`)).join('');
+        const legendCards = data.legends.slice(0, 2).map((l) => card(`<p class="eyebrow">Legend/story tradition</p><h3>${l.title}</h3><p class="muted">${l.note}</p><p class="muted">${l.hook}</p>`, 'parchment tile')).join('');
+        document.getElementById('resultCards').innerHTML = card(`<p class="eyebrow">Top summary</p><h3>${match}</h3><p class="muted">${data.policy}</p>`) + topicCards + apiBooks.slice(0,6).map(bookCard).join('') + personalityCards + legendCards;
+      } catch (error) {
+        const matchedBooks = books.filter((book) => `${book.join(' ')} ${match}`.toLowerCase().includes(q || match.toLowerCase())).concat(books).slice(0,6);
+        document.getElementById('resultCards').innerHTML = card(`<p class="eyebrow">Top summary</p><h3>${match}</h3><p class="muted">AI-enhanced summary based on listed sources. This result separates books, PDFs, Urdu records, maps, images, timeline, story mode and citations.</p>`) + matchedBooks.map(bookCard).join('');
+      }
+      document.getElementById('results').scrollIntoView({ behavior:'smooth' });
+    });
+  </script>
+</body>
+</html>

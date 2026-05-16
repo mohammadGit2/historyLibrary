@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: #07111f;
+  color: #fff8e8;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .24;
+  background-image:
+    radial-gradient(circle at 20% 15%, rgba(215,169,75,.32), transparent 25rem),
+    radial-gradient(circle at 85% 10%, rgba(65,105,132,.28), transparent 28rem),
+    linear-gradient(120deg, rgba(255,255,255,.04) 1px, transparent 1px),
+    linear-gradient(30deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: auto, auto, 72px 72px, 96px 96px;
+  z-index: -2;
+}
+a { color: inherit; text-decoration: none; }
+.archive-card { border: 1px solid rgba(215,169,75,.22); background: linear-gradient(145deg, rgba(255,248,232,.08), rgba(255,248,232,.03)); box-shadow: 0 22px 60px rgba(0,0,0,.25); backdrop-filter: blur(12px); }
+.parchment { background: linear-gradient(135deg, #fff8e8, #ead9b7); color: #10233f; }
+.gold-text { color: #d7a94b; }
+.rtl { direction: rtl; }
+.map-grid { background-image: linear-gradient(rgba(215,169,75,.18) 1px, transparent 1px), linear-gradient(90deg, rgba(215,169,75,.18) 1px, transparent 1px); background-size: 34px 34px; }
+.reader-page { background: #fff8e8; color: #1c2430; }
+.reader-page.sepia { background: #ead9b7; }
+.reader-page.dark { background: #101827; color: #e8dfca; }
