@@ -32,3 +32,16 @@ a { color: inherit; text-decoration: none; }
 .reader-page { background: #fff8e8; color: #1c2430; }
 .reader-page.sepia { background: #ead9b7; }
 .reader-page.dark { background: #101827; color: #e8dfca; }
+
+
+.immersive-card::after {
+  content: '';
+  position: absolute;
+  inset: auto -20% -45% -20%;
+  height: 70%;
+  background: radial-gradient(circle, rgba(215,169,75,.22), transparent 65%);
+  transition: transform .45s ease, opacity .45s ease;
+  opacity: .45;
+}
+.immersive-card:hover::after { transform: translateY(-18%); opacity: .8; }
+.cinematic-divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(215,169,75,.65), transparent); }

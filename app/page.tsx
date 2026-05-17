@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { SearchBox } from '@/components/SearchBox';
 import { BookCard, Section, TopicCard } from '@/components/Cards';
+import { CivilizationGraphPreview, ImmersiveWorlds } from '@/components/ImmersiveWorlds';
 import { books, topics } from '@/lib/data';
 
 const categories = [
@@ -42,8 +43,8 @@ export default function Home() {
           <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_.9fr]">
             <div>
               <p className="mb-4 text-sm uppercase tracking-[.4em] text-gold">The Living History Library</p>
-              <h1 className="font-serif text-5xl leading-tight text-vellum md:text-7xl">Read Real History Like a Beautiful Digital Library</h1>
-              <p className="mt-6 max-w-3xl text-xl text-vellum/75">Beginner-friendly books, source links, maps, timelines, biographies and respectful story mode for Islamic, ancient and world history.</p>
+              <h1 className="font-serif text-5xl leading-tight text-vellum md:text-7xl">Enter the Living History Archive</h1>
+              <p className="mt-6 max-w-3xl text-xl text-vellum/75">A cinematic civilization atlas with books, living cities, trade routes, daily life, maps, timelines, biographies, Urdu support and deep source-based exploration.</p>
               <div className="mt-9"><SearchBox /></div>
               <p className="mt-4 text-sm text-vellum/55">Balanced policy: early Islamic history is presented respectfully and normally — not Sunni polemic, not Shia polemic, and not dynasty propaganda. Conflicts appear only when historically needed and with source labels.</p>
             </div>
@@ -68,6 +69,9 @@ export default function Home() {
           {['Respect sacred figures and communities', 'Separate history, devotional memory and later politics', 'Use neutral wording and show multiple source types'].map((item) => <div key={item} className="parchment rounded-3xl p-6"><h3 className="font-serif text-2xl">{item}</h3><p className="mt-3 text-ink/70">The site avoids one-sided sectarian framing. It explains context, people, places and sources in a calm beginner-friendly style.</p></div>)}
         </div>
       </Section>
+
+      <ImmersiveWorlds />
+      <CivilizationGraphPreview />
 
       <Section eyebrow="Reading paths" title="Featured collections requested by readers">
         <div className="grid gap-4 md:grid-cols-3">{collections.map((c) => <Link href={`/search?q=${encodeURIComponent(c)}`} key={c} className="archive-card rounded-3xl p-5 transition hover:-translate-y-1 hover:border-gold/60"><h3 className="font-serif text-2xl text-vellum">{c}</h3><p className="mt-2 text-sm text-vellum/70">Books, source notes, story mode, timeline, map and reading order.</p></Link>)}</div>

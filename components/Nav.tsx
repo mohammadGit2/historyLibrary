@@ -1,3 +1,3 @@
 import Link from 'next/link';
-const links = [['/books','Books'],['/maps','Maps'],['/images','Images'],['/timeline','Timeline'],['/urdu','Urdu'],['/sources','Sources'],['/admin','Admin']];
+const links = [['/books','Books'],['/worlds','Worlds'],['/maps','Maps'],['/images','Images'],['/timeline','Timeline'],['/urdu','Urdu'],['/sources','Sources'],['/admin','Admin']];
 export function Nav() { return <header className="sticky top-0 z-50 border-b border-gold/20 bg-archive/85 backdrop-blur-xl"><nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3"><Link href="/" className="font-serif text-xl font-bold tracking-wide text-vellum">Bayt al-Tareekh <span className="text-gold">بيت التاريخ</span></Link><div className="hidden gap-4 text-sm text-vellum/80 md:flex">{links.map(([href,label]) => <Link key={href} href={href} className="hover:text-gold">{label}</Link>)}</div></nav></header> }
