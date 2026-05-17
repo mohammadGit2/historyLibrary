@@ -2,6 +2,98 @@ import Link from 'next/link';
 import { SearchBox } from '@/components/SearchBox';
 import { BookCard, Section, TopicCard } from '@/components/Cards';
 import { books, topics } from '@/lib/data';
-const categories = ['Islamic History','Medieval World','Ancient Civilizations','Urdu History Books','Maps & Manuscripts','Empires & Dynasties','Scholars & Scientists','Travelers & Explorers','Battles & Events','Cities & Architecture'];
-const collections = ['Rise of Islam','Umayyad & Abbasid Eras','Al-Andalus','Ottoman Archives','Mughal India','Seljuk & Mamluk Worlds','Crusades from Multiple Sources','Muslim Scientists and Golden Age','Ancient Egypt, Mesopotamia, Persia, Greece, Rome, China, India'];
-export default function Home(){return <main><section className="relative overflow-hidden px-4 py-20 md:py-28"><div className="mx-auto max-w-7xl"><div className="grid items-center gap-10 lg:grid-cols-[1.1fr_.9fr]"><div><p className="mb-4 text-sm uppercase tracking-[.4em] text-gold">The Living History Library</p><h1 className="font-serif text-5xl leading-tight text-vellum md:text-7xl">Explore Real History Through Books, Maps & Archives</h1><p className="mt-6 max-w-3xl text-xl text-vellum/75">Islamic, Medieval, Ancient, Urdu, and World History from real sources.</p><div className="mt-9"><SearchBox /></div><p className="mt-4 text-sm text-vellum/55">AI is used only to summarize, tag, translate, clean OCR and recommend — never to pretend to be an original source.</p></div><div className="archive-card map-grid rounded-[2rem] p-6 shadow-glow"><div className="parchment rounded-[1.5rem] p-6"><p className="text-sm uppercase tracking-[.3em] text-copper">Archive principle</p><h2 className="mt-3 font-serif text-4xl">Sources first. Stories second.</h2><p className="mt-4 text-ink/75">Every topic separates primary sources, secondary scholarship, AI-enhanced summaries, user notes, images, maps and citations.</p><div className="mt-6 grid grid-cols-2 gap-3 text-sm">{['Books','PDFs','Urdu','Maps','Manuscripts','Timelines'].map(x=><span key={x} className="rounded-xl bg-archive px-3 py-2 text-vellum">{x}</span>)}</div></div></div></div></div></section><Section eyebrow="Begin browsing" title="Quick categories"><div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">{categories.map(c=><Link href={`/search?q=${encodeURIComponent(c)}`} key={c} className="archive-card rounded-2xl p-5 text-vellum transition hover:border-gold/60 hover:text-gold">{c}</Link>)}</div></Section><Section eyebrow="Curated paths" title="Featured collections"><div className="grid gap-4 md:grid-cols-3">{collections.map(c=><Link href={`/collections/${c.toLowerCase().replace(/[^a-z0-9]+/g,'-')}`} key={c} className="parchment rounded-3xl p-5 transition hover:-translate-y-1"><h3 className="font-serif text-2xl">{c}</h3><p className="mt-2 text-sm text-ink/70">Reading bundle with source links, maps, timeline and bibliography.</p></Link>)}</div></Section><Section eyebrow="Open reading" title="Book of the Day"><div className="grid gap-6 md:grid-cols-[360px_1fr]"><BookCard book={books[7]} /><div className="archive-card rounded-3xl p-8"><h3 className="font-serif text-4xl text-vellum">{books[7].title}</h3><p className="mt-3 text-vellum/70">Author: {books[7].author} • Language: {books[7].language} • Source: {books[7].sourceName}</p><p className="mt-5 text-vellum/75">{books[7].description}</p><Link href={`/reader/${books[7].id}`} className="mt-7 inline-flex rounded-2xl bg-gold px-6 py-3 font-semibold text-archive">Read Now</Link></div></div></Section><Section eyebrow="Historical atlas" title="Explore by Map"><div className="archive-card map-grid relative min-h-[360px] rounded-[2rem] p-8"><div className="absolute left-[22%] top-[42%] rounded-full bg-gold px-4 py-2 text-sm font-semibold text-archive">Baghdad</div><div className="absolute left-[42%] top-[30%] rounded-full bg-vellum px-4 py-2 text-sm font-semibold text-archive">Silk Road</div><div className="absolute left-[12%] top-[58%] rounded-full bg-copper px-4 py-2 text-sm font-semibold text-white">Cairo</div><Link href="/maps" className="absolute bottom-8 right-8 rounded-2xl border border-gold/40 px-5 py-3 text-gold">Open map archive</Link></div></Section><Section eyebrow="Chronology" title="Explore by Timeline"><div className="overflow-x-auto"><div className="flex min-w-[900px] gap-4">{['3000 BCE Mesopotamia','2500 BCE Indus Valley','550 BCE Persia','27 BCE Rome','750 Abbasids','1206 Mongols','1299 Ottomans','1526 Mughals'].map(e=><div key={e} className="archive-card min-w-48 rounded-2xl p-4"><div className="mb-3 h-2 rounded bg-gold"/><p>{e}</p></div>)}</div></div></Section><Section eyebrow="Topic rooms" title="Enter a historical room"><div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">{topics.slice(0,8).map(t=><TopicCard key={t.id} topic={t}/>)}</div></Section></main>}
+
+const categories = [
+  'Balanced Islamic History',
+  'Golden Age of Islam',
+  'Crusades & Salahuddin',
+  'Ottoman 1453',
+  'Ancient Civilizations',
+  'Quranic & Biblical Stories',
+  'Great Personalities',
+  'Philosophy: Socrates & Aristotle',
+  'Urdu History Books',
+  'Maps & Manuscripts'
+];
+
+const collections = [
+  'Life of Hazrat Ali',
+  'Khalid ibn al-Walid',
+  'Husayn ibn Ali and Karbala',
+  'Islamic Golden Age Book Series',
+  'Salahuddin and the Crusades',
+  'Ottoman 1453 and Constantinople',
+  'Genghis Khan and the Mongols',
+  'Mughals: Babur, Akbar and Tipu Sultan',
+  'Ancient Egypt, Mesopotamia, Persia, Greece and Rome'
+];
+
+const readerRooms = ['Beginner story', 'Original source', 'Map', 'Timeline', 'People', 'Glossary'];
+const highlightedTopics = ['Life of Hazrat Ali','Crusades and Salahuddin','Ottoman 1453','Islamic Golden Age','Genghis Khan','Ancient Egypt and Pharaohs','Socrates','Aristotle'];
+
+export default function Home() {
+  const featuredTopics = highlightedTopics.map((title) => topics.find((topic) => topic.title === title)).filter(Boolean).slice(0, 8);
+  const readableBooks = books.filter((book) => !book.metadataOnly).slice(0, 8);
+
+  return (
+    <main>
+      <section className="relative overflow-hidden px-4 py-20 md:py-28">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_.9fr]">
+            <div>
+              <p className="mb-4 text-sm uppercase tracking-[.4em] text-gold">The Living History Library</p>
+              <h1 className="font-serif text-5xl leading-tight text-vellum md:text-7xl">Read Real History Like a Beautiful Digital Library</h1>
+              <p className="mt-6 max-w-3xl text-xl text-vellum/75">Beginner-friendly books, source links, maps, timelines, biographies and respectful story mode for Islamic, ancient and world history.</p>
+              <div className="mt-9"><SearchBox /></div>
+              <p className="mt-4 text-sm text-vellum/55">Balanced policy: early Islamic history is presented respectfully and normally — not Sunni polemic, not Shia polemic, and not dynasty propaganda. Conflicts appear only when historically needed and with source labels.</p>
+            </div>
+            <div className="archive-card map-grid rounded-[2rem] p-6 shadow-glow">
+              <div className="parchment rounded-[1.5rem] p-6">
+                <p className="text-sm uppercase tracking-[.3em] text-copper">Reader-first archive</p>
+                <h2 className="mt-3 font-serif text-4xl">Search a topic, then enter a reading room.</h2>
+                <p className="mt-4 text-ink/75">Each room separates original sources, public-domain/open catalog books, AI-enhanced summaries, maps, timelines, personalities, legends and citations.</p>
+                <div className="mt-6 grid grid-cols-2 gap-3 text-sm">{readerRooms.map((x) => <span key={x} className="rounded-xl bg-archive px-3 py-2 text-vellum">{x}</span>)}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Section eyebrow="Begin here" title="Choose a friendly history room">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">{categories.map((c) => <Link href={`/search?q=${encodeURIComponent(c)}`} key={c} className="archive-card rounded-2xl p-5 text-vellum transition hover:border-gold/60 hover:text-gold">{c}</Link>)}</div>
+      </Section>
+
+      <Section eyebrow="Balanced source policy" title="Normal Islamic history, not sectarian argument">
+        <div className="grid gap-4 md:grid-cols-3">
+          {['Respect sacred figures and communities', 'Separate history, devotional memory and later politics', 'Use neutral wording and show multiple source types'].map((item) => <div key={item} className="parchment rounded-3xl p-6"><h3 className="font-serif text-2xl">{item}</h3><p className="mt-3 text-ink/70">The site avoids one-sided sectarian framing. It explains context, people, places and sources in a calm beginner-friendly style.</p></div>)}
+        </div>
+      </Section>
+
+      <Section eyebrow="Reading paths" title="Featured collections requested by readers">
+        <div className="grid gap-4 md:grid-cols-3">{collections.map((c) => <Link href={`/search?q=${encodeURIComponent(c)}`} key={c} className="archive-card rounded-3xl p-5 transition hover:-translate-y-1 hover:border-gold/60"><h3 className="font-serif text-2xl text-vellum">{c}</h3><p className="mt-2 text-sm text-vellum/70">Books, source notes, story mode, timeline, map and reading order.</p></Link>)}</div>
+      </Section>
+
+      <Section eyebrow="Readable public-domain books" title="Start reading real books now">
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">{readableBooks.map((book) => <BookCard key={book.id} book={book} />)}</div>
+      </Section>
+
+      <Section eyebrow="Popular rooms" title="Big topics with source-based story mode">
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">{featuredTopics.map((topic) => topic && <TopicCard key={topic.id} topic={topic} />)}</div>
+      </Section>
+
+      <Section eyebrow="Historical atlas" title="Explore by Map">
+        <div className="archive-card map-grid relative min-h-[360px] rounded-[2rem] p-8">
+          <div className="absolute left-[22%] top-[42%] rounded-full bg-gold px-4 py-2 text-sm font-semibold text-archive">Baghdad</div>
+          <div className="absolute left-[47%] top-[28%] rounded-full bg-vellum px-4 py-2 text-sm font-semibold text-archive">Constantinople 1453</div>
+          <div className="absolute left-[12%] top-[58%] rounded-full bg-copper px-4 py-2 text-sm font-semibold text-white">Cairo</div>
+          <div className="absolute left-[62%] top-[55%] rounded-full bg-gold px-4 py-2 text-sm font-semibold text-archive">Delhi / Mughals</div>
+          <Link href="/maps" className="absolute bottom-8 right-8 rounded-2xl border border-gold/40 px-5 py-3 text-gold">Open map archive</Link>
+        </div>
+      </Section>
+
+      <Section eyebrow="Chronology" title="Ancient to early modern timeline">
+        <div className="overflow-x-auto"><div className="flex min-w-[1000px] gap-4">{['3000 BCE Mesopotamia','2500 BCE Indus Valley','550 BCE Ancient Iran','470 BCE Socrates','27 BCE Rome','622 Early Islam','1095 Crusades','1206 Genghis Khan','1453 Ottoman Constantinople','1526 Mughals'].map((e) => <div key={e} className="archive-card min-w-48 rounded-2xl p-4"><div className="mb-3 h-2 rounded bg-gold"/><p>{e}</p></div>)}</div></div>
+      </Section>
+    </main>
+  );
+}
