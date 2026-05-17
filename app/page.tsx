@@ -29,7 +29,7 @@ const collections = [
 ];
 
 const readerRooms = ['Beginner story', 'Original source', 'Map', 'Timeline', 'People', 'Glossary'];
-const highlightedTopics = ['Life of Hazrat Ali','Crusades and Salahuddin','Ottoman 1453','Islamic Golden Age','Genghis Khan','Ancient Egypt and Pharaohs','Socrates','Aristotle'];
+const highlightedTopics = ['Life of Hazrat Ali','Crusades and Salahuddin','Ottoman 1453','Islamic Golden Age','Genghis Khan','Ancient Egypt and Pharaohs','Ancient Greece','Roman Empire'];
 
 export default function Home() {
   const featuredTopics = highlightedTopics.map((title) => topics.find((topic) => topic.title === title)).filter(Boolean).slice(0, 8);

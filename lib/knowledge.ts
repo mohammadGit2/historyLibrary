@@ -100,6 +100,96 @@ export const richTopics: RichTopic[] = [
   }
 ];
 
+
+function makeRichTopic(seed: {
+  title: string;
+  slug: string;
+  alternateNames: string[];
+  era: string;
+  region: string;
+  summary: string;
+  background: string;
+  rise: string;
+  culture: string;
+  legacy: string;
+  people: string[];
+  places: string[];
+  books: string[];
+  citations: { label: string; url: string }[];
+  urduSummary: string;
+}): RichTopic {
+  return {
+    title: seed.title,
+    slug: seed.slug,
+    alternateNames: seed.alternateNames,
+    language: 'Bilingual',
+    summary: seed.summary,
+    authorType: 'AI-assisted',
+    reviewStatus: 'reviewed',
+    quickFacts: [
+      { label: 'Era', value: seed.era },
+      { label: 'Region', value: seed.region },
+      { label: 'Main figures', value: seed.people.slice(0, 4).join(', ') },
+      { label: 'Reader focus', value: 'Article, story mode, facts, timeline, sources and books' },
+      { label: 'Source status', value: 'AI-assisted article based on listed sources; source links retained for verification' }
+    ],
+    sections: [
+      section('introduction', 'Introduction', [seed.summary, 'This article is written as internal website content so the reader can learn on the page before opening external sources. It uses source-aware language, avoids fake certainty and keeps source links visible for verification.']),
+      section('background', 'Historical Background', [seed.background, 'The background section explains geography, earlier institutions, trade routes, languages, religious settings and political context. It is designed for beginners who need orientation before a detailed narrative.']),
+      section('development', 'Rise, Development and Turning Points', [seed.rise, 'Turning points are presented with cause and effect: leadership decisions, military pressure, economic resources, alliances, geography and source disagreement are separated where possible.']),
+      section('society', 'Society, Culture and Knowledge', [seed.culture, 'Culture is treated broadly: cities, books, architecture, law, language, trade, memory, science, art and everyday life are as important as rulers and battles.']),
+      section('legacy', 'Decline, Memory and Legacy', [seed.legacy, 'Legacy is not only what happened afterward; it is also how later readers, communities, states and writers remembered the topic. The archive labels memory, legend and later interpretation separately from dated reports.'])
+    ],
+    storyMode: [
+      section('story-background', 'Background', [seed.background]),
+      section('story-turning-points', 'Turning Points', [seed.rise]),
+      section('story-legacy', 'Legacy', [seed.legacy])
+    ],
+    timeline: [
+      { date: seed.era.split(';')[0], title: `${seed.title} context`, description: 'Chronological anchor for the topic; full timeline grows as source extraction expands.' },
+      { date: 'Source reading', title: 'Compare sources', description: 'Read the internal article, then compare linked source records and public-domain texts.' },
+      { date: 'Legacy', title: 'Later memory', description: 'Track how later writers, communities and states interpreted the topic.' }
+    ],
+    facts: [
+      fact(`${seed.slug}-source-note`, 'Source note', 'This page is internal educational content based on listed sources and should not be quoted as a primary source.', seed.title, 'Source note'),
+      fact(`${seed.slug}-misconception`, 'Common misconception', 'Big historical topics are rarely explained by one cause; this page separates politics, economy, culture, geography and memory.', seed.title, 'Common misconception', 'Medium')
+    ],
+    extracts: sourceExtracts.filter(extract => seed.title.toLowerCase().includes(extract.topic.toLowerCase()) || extract.topic.toLowerCase().includes(seed.title.toLowerCase())),
+    relatedBooks: seed.books,
+    relatedPeople: seed.people,
+    relatedPlaces: seed.places,
+    relatedEvents: [`${seed.title} timeline`, `${seed.title} source comparison`],
+    relatedTopics: ['Silk Road', 'House of Wisdom', 'Ancient Iran and Persia'].filter(topic => topic !== seed.title),
+    citations: seed.citations,
+    urduSummary: seed.urduSummary
+  };
+}
+
+richTopics.push(
+  ...[
+    makeRichTopic({
+      title: 'Abbasid Caliphate', slug: 'abbasid-caliphate', alternateNames: ['Abbasids', 'Abbasid golden age', 'Baghdad caliphate'], era: '750–1258 CE', region: 'Iraq, Iran, Syria, Egypt and wider Islamic world',
+      summary: 'The Abbasid Caliphate was a major Islamic empire centered first on Iraq and Baghdad, remembered for administration, urban life, translation, scholarship, trade and a long political afterlife even as regional powers became more independent.',
+      background: 'The Abbasids came to power after opposition to Umayyad rule gathered strength in the eastern Islamic world, especially Khurasan. The movement used family legitimacy, political dissatisfaction and military organization to create a new dynasty.',
+      rise: 'The revolution of 750 brought Abbasid rule, and Baghdad was founded as a new capital in 762. The city became an administrative, commercial and scholarly center linking Iraq, Iran, Arabia, Syria, Central Asia and Mediterranean routes.',
+      culture: 'Abbasid society included Arabic, Persian, Syriac, Greek and other scholarly influences. Translation, paper, libraries, astronomy, mathematics, medicine, poetry and adab literature all became part of the wider knowledge culture.',
+      legacy: 'The caliphate fragmented politically as regional dynasties gained power. The Mongol sack of Baghdad in 1258 ended the Abbasid caliphate in Iraq, but Abbasid memory and caliphal symbolism continued in later Islamic history.',
+      people: ['Al-Mansur', 'Harun al-Rashid', 'Al-Ma’mun', 'Al-Khwarizmi'], places: ['Baghdad', 'Samarra', 'Kufa', 'Khurasan'], books: ['tabari-1','masudi','baladhuri','muir-caliphate'],
+      citations: [{ label: 'Britannica: Abbasid caliphate', url: 'https://www.britannica.com/place/Caliphate/The-Abbasid-caliphate' }, { label: 'Internet Archive: al-Tabari catalog search', url: 'https://archive.org/search?query=History+of+al-Tabari' }],
+      urduSummary: 'عباسی خلافت بغداد، علم، ترجمہ، تجارت اور اسلامی شہری تہذیب کے حوالے سے اہم ہے۔ سیاسی زوال کے باوجود اس کی علمی اور تاریخی یاد دیر تک باقی رہی۔'
+    }),
+    makeRichTopic({ title: 'Ottoman Empire', slug: 'ottoman-empire', alternateNames: ['Ottomans', 'Osmanli', 'عثمانی'], era: 'c. 1299–1922 CE', region: 'Anatolia, Balkans, Middle East, North Africa', summary: 'The Ottoman Empire grew from an Anatolian frontier principality into a major empire linking Europe, Asia and Africa.', background: 'Ottoman history began in the frontier world of Anatolia after Seljuk and Byzantine power shifted. The early Ottomans used alliances, frontier warfare and administration to grow.', rise: 'Expansion accelerated through the Balkans and Anatolia, and the conquest of Constantinople in 1453 made the Ottomans heirs to a major imperial city.', culture: 'Ottoman culture included Turkish, Arabic, Persian, Greek, Armenian, Slavic and Jewish communities, with court culture, architecture, law, trade and manuscript production.', legacy: 'The empire lasted for centuries and shaped the modern Middle East, Balkans and Mediterranean world. Its legacy includes both imperial institutions and contested modern memories.', people: ['Osman I','Mehmed II','Suleiman the Magnificent'], places: ['Bursa','Edirne','Istanbul','Cairo'], books: ['conquest-constantinople','metadata-2'], citations: [{ label: 'Britannica: Ottoman Empire', url: 'https://www.britannica.com/place/Ottoman-Empire' }, { label: 'Britannica: Fall of Constantinople', url: 'https://www.britannica.com/event/Fall-of-Constantinople-1453' }], urduSummary: 'عثمانی سلطنت اناطولیہ سے اٹھی اور استنبول، بلقان، عرب دنیا اور شمالی افریقہ تک پھیلی۔' }),
+    makeRichTopic({ title: 'Crusades and Salahuddin', slug: 'crusades-and-salahuddin', alternateNames: ['Saladin', 'Salahuddin Ayyubi', 'صلاح الدین', 'Third Crusade'], era: '11th–13th centuries', region: 'Levant, Egypt, Syria and Mediterranean', summary: 'The Crusades and Salahuddin should be read through multiple source traditions: Muslim, Latin Christian, Byzantine and modern scholarship.', background: 'The Crusades emerged from religious, political and military changes in Europe and the eastern Mediterranean. Muslim polities were also divided, and the Levant was a contested frontier.', rise: 'Salahuddin rose through Egypt and Syria, built coalitions and became famous for defeating the Crusader states at Hattin and taking Jerusalem in 1187.', culture: 'The period produced chronicles, legal writings, architecture, diplomacy, pilgrimage networks and long memories on both Muslim and Christian sides.', legacy: 'Salahuddin became a model of leadership in many later traditions, while the Crusades became a major field of historical debate about religion, empire, warfare and memory.', people: ['Salahuddin Ayyubi','Richard I','Nur al-Din'], places: ['Jerusalem','Cairo','Damascus','Acre'], books: ['saladin-crusades','metadata-7'], citations: [{ label: 'Britannica: Third Crusade', url: 'https://www.britannica.com/event/Crusades/The-Third-Crusade' }, { label: 'World History Encyclopedia: Saladin', url: 'https://www.worldhistory.org/Saladin/' }], urduSummary: 'صلاح الدین اور صلیبی جنگوں کو مختلف مسلم، عیسائی اور جدید ماخذوں کے ساتھ پڑھنا چاہیے تاکہ یک طرفہ تصویر نہ بنے۔' }),
+    makeRichTopic({ title: 'Mughal Empire', slug: 'mughal-empire', alternateNames: ['Mughal India', 'Mighal', 'مغل'], era: '1526–1857 CE', region: 'South Asia', summary: 'The Mughal Empire was a Persianate South Asian empire known for administration, court culture, architecture, painting, gardens and regional diversity.', background: 'Babur came from a Central Asian Timurid background and entered North India after years of struggle, movement and political uncertainty.', rise: 'The empire began with Babur and was consolidated under rulers such as Akbar, who expanded administration and court culture.', culture: 'Mughal India combined Persianate literary culture, South Asian political traditions, architecture, revenue systems, painting and multilingual society.', legacy: 'Mughal memory remains visible in architecture, language, food, art, administration and modern debates about empire and identity.', people: ['Babur','Akbar','Shah Jahan','Tipu Sultan'], places: ['Delhi','Agra','Lahore','Fatehpur Sikri'], books: ['baburnama','metadata-3'], citations: [{ label: 'Internet Archive: Baburnama catalog', url: 'https://archive.org/search?query=Baburnama' }, { label: 'Britannica: Mughal dynasty', url: 'https://www.britannica.com/topic/Mughal-dynasty' }], urduSummary: 'مغل سلطنت جنوبی ایشیا کی بڑی سلطنت تھی جس میں فارسی درباری تہذیب، فن تعمیر، مصوری اور انتظامی نظام نمایاں تھے۔' }),
+    makeRichTopic({ title: 'House of Wisdom', slug: 'house-of-wisdom', alternateNames: ['Bayt al-Hikma', 'Baghdad knowledge house', 'بيت الحكمة'], era: '8th–13th centuries', region: 'Baghdad and Abbasid Iraq', summary: 'The House of Wisdom is used as a reading room for Abbasid translation culture, libraries, astronomy, mathematics and cross-language scholarship.', background: 'Abbasid Baghdad connected Arabic, Persian, Greek, Syriac, Sanskrit and other knowledge traditions through patronage, translation and scholarly networks.', rise: 'Translation and scholarship flourished under caliphal and elite patronage, especially in fields such as astronomy, mathematics, medicine and philosophy.', culture: 'The story is not one building only; it is a wider culture of books, paper, scholars, patrons, observatories, copyists and debate.', legacy: 'The translation movement shaped later Islamic intellectual life and contributed to knowledge transmission into Hebrew and Latin scholarly worlds.', people: ['Al-Ma’mun','Al-Khwarizmi','Hunayn ibn Ishaq','Al-Biruni'], places: ['Baghdad','Samarra','Jundishapur'], books: ['metadata-5','metadata-16','plato-republic','aristotle-politics'], citations: [{ label: 'Internet Archive: House of Wisdom search', url: 'https://archive.org/search?query=House+of+Wisdom+Baghdad' }], urduSummary: 'بیت الحکمہ کو صرف ایک عمارت نہیں بلکہ بغداد کی ترجمہ، کتاب، علم اور بحث کی وسیع تہذیب کے طور پر سمجھنا چاہیے۔' }),
+    makeRichTopic({ title: 'Ancient Egypt and Pharaohs', slug: 'ancient-egypt-and-pharaohs', alternateNames: ['Ancient Egypt', 'Pharaohs', 'Oharaohs', 'فراعنہ'], era: 'c. 3000–30 BCE', region: 'Nile Valley', summary: 'Ancient Egypt was a long Nile civilization of dynasties, writing, temples, royal ideology, agriculture, art and memory.', background: 'The Nile floodplain supported agriculture, settlement and state formation. Writing, administration and ritual helped hold the kingdom together over long periods.', rise: 'Egyptian history is usually organized into dynasties and kingdoms, with periods of unity and fragmentation.', culture: 'Scribes, temples, artisans, tombs, inscriptions, mathematics, medicine and religious ideas all belong to the story.', legacy: 'Egypt’s monuments and texts shaped ancient Mediterranean memory and modern archaeology, but popular myths must be separated from evidence.', people: ['Hatshepsut','Akhenaten','Ramses II','Cleopatra VII'], places: ['Memphis','Thebes','Giza','Alexandria'], books: ['gutenberg-egypt-myth','metadata-8'], citations: [{ label: 'Britannica: Ancient Egypt', url: 'https://www.britannica.com/place/ancient-Egypt' }, { label: 'Project Gutenberg: Legends of the Gods search', url: 'https://www.gutenberg.org/ebooks/search/?query=Legends+of+the+Gods+Budge' }], urduSummary: 'قدیم مصر نیل، فرعونوں، تحریر، مندروں، اہرام اور آثار قدیمہ کی طویل تہذیب ہے۔' }),
+    makeRichTopic({ title: 'Roman Empire', slug: 'roman-empire', alternateNames: ['Rome', 'Ancient Rome', 'Roma'], era: '27 BCE–476 CE in the West; Byzantine continuation in the East', region: 'Mediterranean, Europe, North Africa, Near East', summary: 'The Roman Empire was a Mediterranean imperial system of law, cities, roads, armies, citizenship, taxation and provincial government.', background: 'Rome developed from republic to empire after civil wars and the rise of Augustus. Its institutions adapted older republican forms to imperial rule.', rise: 'Imperial Rome expanded through armies, roads, alliances, colonies and provincial administration.', culture: 'Roman culture included Latin and Greek literature, law, engineering, urban life, religion, trade and later Christianity.', legacy: 'Rome’s legacy continued through law, languages, urban forms, Christianity, imperial memory and the Byzantine Empire.', people: ['Augustus','Julius Caesar','Tacitus','Constantine'], places: ['Rome','Constantinople','Carthage','Alexandria'], books: ['gibbon-rome','caesar-commentaries','tacitus-annals'], citations: [{ label: 'Britannica: Roman Empire', url: 'https://www.britannica.com/place/Roman-Empire' }, { label: 'Project Gutenberg: Gibbon', url: 'https://www.gutenberg.org/ebooks/25717' }], urduSummary: 'رومی سلطنت قانون، فوج، شہروں، سڑکوں اور بحیرہ روم کی سیاست کی بڑی سلطنت تھی۔' }),
+    makeRichTopic({ title: 'Ancient Greece', slug: 'ancient-greece', alternateNames: ['Greece', 'Socrates', 'Aristotle', 'Greek philosophy'], era: 'c. 800–323 BCE', region: 'Aegean and Mediterranean', summary: 'Ancient Greece is read through city-states, philosophy, drama, war, art, colonies and later Hellenistic influence.', background: 'Greek history centered on poleis such as Athens and Sparta, maritime networks, colonization and interaction with Persia and the wider Mediterranean.', rise: 'The classical period saw Persian wars, Athenian democracy, philosophy, drama and conflicts such as the Peloponnesian War.', culture: 'Socrates, Plato and Aristotle shaped philosophical traditions, while historians, playwrights and artists shaped cultural memory.', legacy: 'Greek texts and ideas were preserved, debated and translated in later Roman, Islamic, Byzantine and European worlds.', people: ['Socrates','Plato','Aristotle','Alexander the Great'], places: ['Athens','Sparta','Delphi','Macedon'], books: ['herodotus','plato-republic','aristotle-politics','plutarch-lives'], citations: [{ label: 'Project Gutenberg: Herodotus', url: 'https://www.gutenberg.org/ebooks/2707' }, { label: 'Project Gutenberg: Plato Republic', url: 'https://www.gutenberg.org/ebooks/1497' }], urduSummary: 'قدیم یونان شہری ریاستوں، فلسفہ، ڈرامہ، جنگوں اور سقراط، افلاطون و ارسطو جیسے مفکرین کے لیے اہم ہے۔' }),
+    makeRichTopic({ title: 'Silk Road', slug: 'silk-road', alternateNames: ['Trade routes', 'Eurasian routes'], era: 'Ancient to early modern', region: 'Eurasia', summary: 'The Silk Road was not one road but a network of land and sea routes connecting China, Central Asia, Iran, India, the Islamic world and the Mediterranean.', background: 'Routes grew from older trade paths, oasis cities, pastoral networks and imperial frontiers.', rise: 'Silk, horses, paper, religions, technologies, medicines, stories and diplomatic messages moved through many intermediaries.', culture: 'Cities along the routes became multilingual and multi-religious spaces where merchants, monks, envoys and scholars met.', legacy: 'The Silk Road remains a useful map for understanding Eurasian exchange, but it should not be simplified into a single highway.', people: ['Ibn Battuta','Marco Polo','Zheng He'], places: ['Samarkand','Bukhara','Kashgar','Baghdad'], books: ['marco-polo','ibn-battuta','metadata-11'], citations: [{ label: 'Britannica: Silk Road', url: 'https://www.britannica.com/topic/Silk-Road-trade-route' }, { label: 'Project Gutenberg: Marco Polo', url: 'https://www.gutenberg.org/ebooks/10636' }], urduSummary: 'شاہراہ ریشم ایک سڑک نہیں بلکہ یوریشیا کے تجارتی، علمی اور ثقافتی راستوں کا جال تھا۔' }),
+    makeRichTopic({ title: 'Al-Andalus', slug: 'al-andalus', alternateNames: ['Andalus', 'Muslim Spain', 'الأندلس'], era: '711–1492 CE', region: 'Iberian Peninsula', summary: 'Al-Andalus was the Muslim-ruled and Muslim-influenced Iberian world of cities, agriculture, scholarship, poetry, architecture and changing frontiers.', background: 'After 711, Muslim forces entered Iberia and new political, social and cultural formations developed alongside Christian and Jewish communities.', rise: 'Cordoba became a major city and intellectual center, while later periods saw fragmentation, reform movements and regional courts.', culture: 'Arabic, Hebrew, Latin and Romance cultures interacted in philosophy, medicine, poetry, law, architecture and translation.', legacy: 'Al-Andalus is remembered in architecture, literature, music, scholarship and modern debates about coexistence, conflict and memory.', people: ['Abd al-Rahman I','Ibn Rushd','Maimonides'], places: ['Cordoba','Granada','Seville','Toledo'], books: ['metadata-4','metadata-28'], citations: [{ label: 'Britannica: Al-Andalus', url: 'https://www.britannica.com/place/Al-Andalus' }], urduSummary: 'الاندلس اسپین و پرتگال کی اسلامی، یہودی اور عیسائی تہذیبی تاریخ کا اہم باب ہے۔' })
+  ]
+);
+
 export const allFactCards = richTopics.flatMap(topic => topic.facts);
 export const allSourceExtracts = sourceExtracts;
 
