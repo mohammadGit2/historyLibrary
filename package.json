@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "netlify:build": "node scripts/build-netlify.mjs"
+    "netlify:build": "node scripts/build-netlify.mjs",
+    "content:import": "node scripts/content/import-public-domain.mjs"
   },
   "dependencies": {
     "@types/node": "^20.17.0",

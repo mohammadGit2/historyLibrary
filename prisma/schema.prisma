@@ -1,0 +1,161 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Topic {
+  id                 String   @id @default(cuid())
+  title              String
+  slug               String   @unique
+  alternateNames     String   // JSON array
+  type               String
+  language           String
+  summary            String
+  fullArticle        String
+  storyMode          String
+  quickFacts         String   // JSON array
+  sections           String   // JSON array
+  era                String
+  region             String
+  startDate          String?
+  endDate            String?
+  sources            String   // JSON array
+  citations          String   // JSON array
+  relatedTopics      String   // JSON array
+  relatedBooks       String   // JSON array
+  relatedPeople      String   // JSON array
+  relatedPlaces      String   // JSON array
+  relatedEvents      String   // JSON array
+  images             String   // JSON array
+  maps               String   // JSON array
+  verificationStatus String
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model Book {
+  id                String   @id @default(cuid())
+  title             String
+  author            String
+  language          String
+  year              String?
+  century           String
+  topicTags         String
+  regionTags        String
+  description       String
+  sourceName        String
+  sourceUrl         String
+  license           String
+  copyrightStatus   String
+  pdfUrl            String?
+  fullText          String?
+  ocrText           String?
+  chapters          String
+  summaries         String
+  importantExtracts String
+  relatedTopics     String
+  relatedPeople     String
+  relatedPlaces     String
+  coverImage        String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Chapter {
+  id                String @id @default(cuid())
+  bookId            String
+  title             String
+  number            Int
+  fullText          String
+  summary           String
+  importantPassages String
+  relatedTopics     String
+}
+
+model SourceExtract {
+  id          String @id @default(cuid())
+  sourceType  String
+  sourceTitle String
+  author      String
+  text        String
+  language    String
+  pageNumber  String?
+  chapter     String?
+  topic       String
+  citation    String
+  license     String
+  confidence  String
+}
+
+model Person {
+  id             String @id @default(cuid())
+  name           String
+  alternateNames String
+  birthDate      String?
+  deathDate      String?
+  role           String
+  region         String
+  biography      String
+  relatedBooks   String
+  relatedEvents  String
+  relatedPlaces  String
+  sources        String
+}
+
+model Place {
+  id               String @id @default(cuid())
+  name             String
+  alternateNames   String
+  currentCountry   String
+  historicalRegion String
+  latitude         Float?
+  longitude        Float?
+  description      String
+  relatedTopics    String
+  relatedBooks     String
+  relatedEvents    String
+  images           String
+  maps             String
+}
+
+model TimelineEvent {
+  id          String @id @default(cuid())
+  title       String
+  dateStart   String
+  dateEnd     String?
+  description String
+  topic       String
+  people      String
+  places      String
+  sources     String
+}
+
+model ImageAsset {
+  id            String @id @default(cuid())
+  title         String
+  imageUrl      String
+  sourceUrl     String
+  creator       String?
+  license       String
+  attribution   String
+  description   String
+  relatedTopic  String
+  relatedPlace  String
+  relatedDate   String?
+}
+
+model FactCard {
+  id           String @id @default(cuid())
+  topicId      String
+  title        String
+  text         String
+  type         String
+  source       String
+  confidence   String
+  relatedBook  String?
+  relatedEvent String?
+}
