@@ -22,8 +22,8 @@ const bookSeeds = [
 ['gibbon-rome','The History of the Decline and Fall of the Roman Empire','Edward Gibbon','English','Ancient History','18th c.',['Rome','Byzantium','Secondary source'],['Mediterranean'],'Project Gutenberg','https://www.gutenberg.org/ebooks/25717','Public domain','Classic public-domain secondary work; best read critically with modern scholarship.'],
 ['herodotus','The Histories','Herodotus','English','Ancient History','5th c. BCE',['Greece','Persia','Primary source'],['Mediterranean','Persia'],'Project Gutenberg','https://www.gutenberg.org/ebooks/2707','Public domain','Ancient Greek historical source for Persian wars and wider ethnographic material.'],
 ['marco-polo','The Travels of Marco Polo','Marco Polo','English','Medieval World','13th c.',['Travelers','Silk Road','Mongols'],['Central Asia','China'],'Project Gutenberg','https://www.gutenberg.org/ebooks/10636','Public domain','Travel narrative relevant to Mongol-era Eurasia and trade routes.'],
-['urdu-tareekh-islam','Tareekh-e-Islam catalog record','Multiple Urdu authors','Urdu','Islamic History','Multiple',['Urdu','Islamic History'],['Middle East','South Asia'],'Rekhta / Internet Archive search','https://archive.org/search?query=title%3A%28Tareekh-e-Islam%29','Metadata only — do not host until rights verified','Urdu Islamic history metadata placeholder for legal source connection.'],
-['urdu-ibn-khaldun','Muqaddima Ibn Khaldun Urdu catalog record','Ibn Khaldun / translators','Urdu','Historiography','14th c.',['Urdu','Historians'],['North Africa','South Asia'],'Archive catalog search','https://archive.org/search?query=Muqaddima+Ibn+Khaldun+Urdu','Metadata only — rights vary','Urdu-access placeholder linking users to catalog discovery.'],
+['urdu-tareekh-islam','Tareekh-e-Islam catalog record','Multiple Urdu authors','Urdu','Islamic History','Multiple',['Urdu','Islamic History'],['Middle East','South Asia'],'Rekhta / Internet Archive search','https://archive.org/search?query=title%3A%28Tareekh-e-Islam%29','Metadata only — do not host until rights verified','Urdu Islamic history metadata record for legal source connection.'],
+['urdu-ibn-khaldun','Muqaddima Ibn Khaldun Urdu catalog record','Ibn Khaldun / translators','Urdu','Historiography','14th c.',['Urdu','Historians'],['North Africa','South Asia'],'Archive catalog search','https://archive.org/search?query=Muqaddima+Ibn+Khaldun+Urdu','Metadata only — rights vary','Urdu-access catalog discovery record linking users to source searches.'],
 ['plutarch-lives','Plutarch Lives','Plutarch','English','Ancient Biography','1st–2nd c.',['Biography','Alexander','Caesar','Great personalities'],['Greece','Rome'],'Project Gutenberg','https://www.gutenberg.org/ebooks/search/?query=Plutarch+Lives','Public domain editions available','Parallel biographies of Greek and Roman figures; useful for personality studies with source caveats.'],
 ['homer-iliad','The Iliad','Homer','English','Ancient Epic Tradition','8th c. BCE tradition',['Legend','Troy','Achilles','Epic'],['Aegean','Anatolia'],'Project Gutenberg','https://www.gutenberg.org/ebooks/2199','Public domain','Epic tradition around Troy; displayed as literature/legend, not simple factual chronicle.'],
 ['homer-odyssey','The Odyssey','Homer','English','Ancient Epic Tradition','8th c. BCE tradition',['Legend','Odysseus','Journey','Epic'],['Mediterranean'],'Project Gutenberg','https://www.gutenberg.org/ebooks/1727','Public domain','Ancient travel-and-return epic for a clearly labeled legends and story tradition section.'],
@@ -51,7 +51,7 @@ const bookSeeds = [
 const moreTitles = ['Abbasid Baghdad Reader','Ottoman Source Reader','Mughal India Bibliography','Al-Andalus Reading Path','House of Wisdom Studies','Salahuddin and the Ayyubids','Crusades Multi-Source Packet','Ancient Egypt Public Texts','Persian Empire Sourcebook','Indus Valley Archaeology Notes','Silk Road Travel Sources','Mongol Empire Reader','Byzantine and Islamic Frontiers','Mamluk Cairo Archive','Seljuk Anatolia Studies','Islamic Golden Age Science','Urdu World History Catalog','Urdu Muslim Scientists Catalog','Arabic Manuscript Studies','Persian Chronicles Catalog','Ottoman Travel Accounts','Medieval Cities Reader','Trade Routes and Pilgrimage','Coins and Inscriptions Guide','Architecture of Islamic Cities','Ancient Mesopotamia Texts','Ancient China Historical Sources','Greek and Roman Crossroads','Fatimid Cairo Studies','Safavid Iran Reader','Central Asian Scholars','Ibn Sina Source Guide','Al-Biruni Source Guide','Al-Khwarizmi Source Guide','Rumi and Persian Literary Worlds','Baburnama Source Metadata','Akbarnama Source Metadata','Delhi Sultanate Reader'];
 export const books: Book[] = [
 ...bookSeeds.map((b, i) => ({ id:b[0] as string, title:b[1] as string, author:b[2] as string, language:b[3] as Book['language'], era:b[4] as string, century:b[5] as string, topicTags:b[6] as string[], regionTags:b[7] as string[], sourceName:b[8] as string, sourceUrl:b[9] as string, license:b[10] as string, coverImage: makeCover(i,b[1] as string), description:b[11] as string, aiSummary:'AI-enhanced summary based on listed sources. This record summarizes catalog metadata and does not replace the original source.', tableOfContents:['Source record','Historical context','Reading notes','Citation guidance'], relatedPeople:[], relatedPlaces:[], relatedEvents:[], readingOrder:i+1, metadataOnly:(b[10] as string).includes('Metadata') || (b[10] as string).includes('metadata') })),
-...moreTitles.map((title, idx) => ({ id:`metadata-${idx+1}`, title, author:'Curated metadata team', language: idx%5===0?'Urdu':'English' as Book['language'], era: idx%3===0?'Islamic History':idx%3===1?'Medieval World':'Ancient History', century:'Multiple', topicTags:[title.split(' ')[0], 'Reading bundle candidate','Metadata'], regionTags:['Global'], sourceName:'Open library/catalog connection pending', sourceUrl:'https://archive.org/', license:'Metadata only — no PDF hosted until public-domain/open-license status is verified', coverImage: makeCover(idx+12,title), description:`Placeholder metadata record for ${title}. It is clearly marked metadata-only so the platform never pretends to host or own unverified books.`, aiSummary:'AI-enhanced summary based on listed sources. Pending curator approval and source verification.', tableOfContents:['Metadata checklist','Rights verification','Recommended sources'], relatedPeople:[], relatedPlaces:[], relatedEvents:[], readingOrder:idx+13, metadataOnly:true }))
+...moreTitles.map((title, idx) => ({ id:`metadata-${idx+1}`, title, author:'Curated metadata team', language: idx%5===0?'Urdu':'English' as Book['language'], era: idx%3===0?'Islamic History':idx%3===1?'Medieval World':'Ancient History', century:'Multiple', topicTags:[title.split(' ')[0], 'Reading bundle candidate','Metadata'], regionTags:['Global'], sourceName:'Open library/catalog connection pending', sourceUrl:'https://archive.org/', license:'Metadata only — no PDF hosted until public-domain/open-license status is verified', coverImage: makeCover(idx+12,title), description:`Starter metadata record for ${title}. It is clearly marked metadata-only so the platform never pretends to host or own unverified books.`, aiSummary:'AI-enhanced summary based on listed sources. Pending curator approval and source verification.', tableOfContents:['Metadata checklist','Rights verification','Recommended sources'], relatedPeople:[], relatedPlaces:[], relatedEvents:[], readingOrder:idx+13, metadataOnly:true }))
 ];
 
 const topicTitles = ['Abbasid Caliphate','Ottoman 1453','Crusades and Salahuddin','Life of Hazrat Ali','Khalid ibn al-Walid','Husayn ibn Ali and Karbala','Islamic Golden Age','Al-Khwarizmi','Al-Biruni','Salman al-Farisi','Jalal ad-Din Khwarazmshah','Genghis Khan','Mughal Empire','Babur','Akbar','Tipu Sultan','Ancient Egypt and Pharaohs','Mesopotamia and Gilgamesh','Ancient Iran and Persia','Ancient Greece','Socrates','Aristotle','Roman Empire','Quranic Stories and Prophets','Biblical Stories and Ancient Near East','Ibn Battuta','Ibn Khaldun','Baghdad','House of Wisdom','Silk Road'];
@@ -92,9 +92,9 @@ export const topics: Topic[] = topicTitles.map((title, i) => {
 });
 
 export const images: ImageAsset[] = [
- {id:'manuscript-1',title:'Digitized manuscript folio placeholder',imageUrl:makeCover(1,'Manuscript'),sourceUrl:'https://commons.wikimedia.org/',creator:'Creator varies by item',license:'Use only open-license/public-domain images after verification',attribution:'Attribution required from source record',relatedTopic:'House of Wisdom',relatedPlace:'Baghdad',type:'Manuscript'},
- {id:'map-abbasid',title:'Historical map source placeholder',imageUrl:makeCover(2,'Map Archive'),sourceUrl:'https://commons.wikimedia.org/',creator:'Cartographer varies by item',license:'Open-license/public-domain only',attribution:'Verify per map record',relatedTopic:'Abbasid Caliphate',relatedPlace:'Baghdad',type:'Map'},
- {id:'architecture-1',title:'Islamic architecture image placeholder',imageUrl:makeCover(3,'Architecture'),sourceUrl:'https://www.metmuseum.org/art/collection',creator:'Museum record',license:'Follow source license',attribution:'Museum/source attribution required',relatedTopic:'Islamic Golden Age',relatedPlace:'Cairo',type:'Architecture'}
+ {id:'manuscript-1',title:'Digitized manuscript folio source lane',imageUrl:makeCover(1,'Manuscript'),sourceUrl:'https://commons.wikimedia.org/',creator:'Creator varies by item',license:'Use only open-license/public-domain images after verification',attribution:'Attribution required from source record',relatedTopic:'House of Wisdom',relatedPlace:'Baghdad',type:'Manuscript'},
+ {id:'map-abbasid',title:'Historical map source lane',imageUrl:makeCover(2,'Map Archive'),sourceUrl:'https://commons.wikimedia.org/',creator:'Cartographer varies by item',license:'Open-license/public-domain only',attribution:'Verify per map record',relatedTopic:'Abbasid Caliphate',relatedPlace:'Baghdad',type:'Map'},
+ {id:'architecture-1',title:'Islamic architecture image source lane',imageUrl:makeCover(3,'Architecture'),sourceUrl:'https://www.metmuseum.org/art/collection',creator:'Museum record',license:'Follow source license',attribution:'Museum/source attribution required',relatedTopic:'Islamic Golden Age',relatedPlace:'Cairo',type:'Architecture'}
 ];
 export const places: Place[] = [
  {id:'baghdad',name:'Baghdad',currentCountry:'Iraq',historicalRegion:'Abbasid Iraq',latitude:33.3152,longitude:44.3661,description:'Key Abbasid capital and manuscript/book culture hub.',relatedBooks:['tabari-1','masudi'],relatedEvents:['Abbasid foundation','Mongol sack of Baghdad']},
@@ -109,4 +109,298 @@ export const people: Person[] = [
  {id:'hatshepsut',name:'Hatshepsut',alternateNames:['Maatkare Hatshepsut'],birthYear:-1507,deathYear:-1458,region:'Ancient Egypt',role:'Pharaoh',biography:'Ancient personality story combining kingship, monuments, trade expeditions and the politics of memory.',relatedBooks:['metadata-8'],relatedEvents:['Punt expedition'],relatedPlaces:['Thebes','Deir el-Bahri']},
  {id:'hannibal',name:'Hannibal Barca',alternateNames:['Hannibal'],birthYear:-247,deathYear:-183,region:'Carthage and Mediterranean',role:'General',biography:'His Alpine crossing and Italian campaign make a gripping story when Polybius, Livy and modern analysis are separated.',relatedBooks:['metadata-28'],relatedEvents:['Second Punic War'],relatedPlaces:['Carthage','Alps','Rome']},
  {id:'cleopatra',name:'Cleopatra VII',alternateNames:['Cleopatra Philopator'],birthYear:-69,deathYear:-30,region:'Ptolemaic Egypt',role:'Ruler',biography:'A personality page that separates Roman propaganda, later legend and political history in the age of Caesar and Antony.',relatedBooks:['metadata-8'],relatedEvents:['Fall of Ptolemaic Egypt'],relatedPlaces:['Alexandria','Rome']}
+];
+
+export type ReaderPage = {
+  page: number;
+  heading: string;
+  dateRange: string;
+  body: string[];
+  sourceNote: string;
+};
+
+const genericReaderPages = (book: Book): ReaderPage[] => [
+  {
+    page: 1,
+    heading: `${book.title}: source dossier`,
+    dateRange: book.century,
+    body: [
+      `${book.title} is included here as a source-linked reading item for ${book.era}. The record identifies the author, language, catalog location, rights note, historical regions and suggested table of contents before any interpretation is shown.`,
+      `Use this first page as the reader's orientation: who produced the work, what kind of evidence it preserves, which places it mentions, and whether the linked edition can be opened as a public-domain or open catalog item.`,
+      `The safest reading path is to compare the source record with the related topic pages, maps and chronology instead of treating one book as the whole story.`
+    ],
+    sourceNote: `${book.sourceName}: ${book.sourceUrl}`
+  },
+  {
+    page: 2,
+    heading: 'Reading guide with dates and places',
+    dateRange: book.era,
+    body: [
+      `Main regions in this record: ${book.regionTags.join(', ')}. Related people include ${book.relatedPeople.join(', ') || 'people identified on the matching topic pages'}.`,
+      `A reader should track named cities, rulers, routes, dynasties and institutions as separate evidence cards. Dates from the table of contents and topic chronology are shown beside the narrative so uncertain traditions do not look like confirmed events.`,
+      `For classroom use, ask: what is primary testimony, what is later scholarship, what is literary memory, and what part of the page is a modern explanatory summary?`
+    ],
+    sourceNote: `Rights note: ${book.license}`
+  },
+  {
+    page: 3,
+    heading: 'Citation and next steps',
+    dateRange: 'Study workflow',
+    body: [
+      `Citation starter: ${book.title}, ${book.author}, ${book.sourceName}. Add edition, translator, volume and page number after opening the source page.`,
+      `Next steps: open the source catalog, verify the edition rights, add page-specific notes, then connect the book to maps, images and topic timelines.`,
+      book.aiSummary
+    ],
+    sourceNote: 'This reader page is an original guide to the linked source record, not a replacement for the edition.'
+  }
+];
+
+export const readerPagesByBookId: Record<string, ReaderPage[]> = {
+  'tabari-1': [
+    {
+      page: 1,
+      heading: 'Al-Tabari as a universal chronicle',
+      dateRange: 'c. 839–923 CE; Abbasid-era compilation',
+      body: [
+        'Al-Tabari organized history as a long chain of reports, moving from earlier sacred and imperial memories into the political history of the early Islamic centuries. The reader should notice how reports are attributed, compared and sometimes placed side by side rather than flattened into one voice.',
+        'For Bayt al-Tareekh, this means the page is treated as a primary chronicle room: a place to identify transmitters, dates, geography and competing memories before reading a smooth modern story.',
+        'Start with the source record, then compare the same event with later historians, maps and modern scholarship.'
+      ],
+      sourceNote: 'Source record: Internet Archive catalog search for History of al-Tabari editions.'
+    },
+    {
+      page: 2,
+      heading: 'How to read early caliphate reports',
+      dateRange: '7th–10th century memory and compilation',
+      body: [
+        'When the reader reaches reports about succession, civil conflict or dynastic politics, the interface should slow the story down. It should mark what the report says, who preserved it, what later communities remembered, and what modern historians debate.',
+        'Names, dates and places should be copied into notes before interpretation. This keeps the reader from confusing devotional memory, court history, later polemic and administrative fact.',
+        'The reader therefore presents evidence cards beside narrative paragraphs instead of making one hidden editorial judgment.'
+      ],
+      sourceNote: 'Use with topic pages on early Islamic history, Umayyads and Abbasids.'
+    },
+    {
+      page: 3,
+      heading: 'Citation practice',
+      dateRange: 'Research workflow',
+      body: [
+        'A finished citation needs volume, translator, edition, publisher or archive identifier, and page number. This MVP stores the catalog link first so the site does not host uncertain-rights scans.',
+        'For a study note, quote only a short line from the edition, then summarize the report in your own words and attach the source-page link.',
+        'For story mode, mention uncertainty directly: “one report says,” “later tradition remembers,” or “modern scholarship usually treats this as.”'
+      ],
+      sourceNote: 'Rights: verify each translation and scan before hosting downloadable files.'
+    }
+  ],
+  'ibn-battuta': [
+    {
+      page: 1,
+      heading: 'The Rihla route begins',
+      dateRange: '1325–1354 CE journeys; dictated after return to Morocco',
+      body: [
+        'Ibn Battuta left Tangier for pilgrimage, then moved through North Africa, Egypt, Syria, Arabia, East Africa, Anatolia, Central Asia, India, the Maldives and beyond. The reader treats every stop as a map point with date, court, road and source-note fields.',
+        'The travel narrative is valuable because it records movement between ports, madrasas, caravan routes, judges, rulers and merchants. It is also a literary travel text, so comparison matters.',
+        'Open the map panel while reading: Tangier, Cairo, Mecca, Delhi, the Maldives and China should feel like connected route stages rather than isolated anecdotes.'
+      ],
+      sourceNote: 'Source record: Internet Archive catalog search for Travels of Ibn Battuta / Gibb.'
+    },
+    {
+      page: 2,
+      heading: 'Courts, roads and ocean crossings',
+      dateRange: '14th-century Afro-Eurasia',
+      body: [
+        'The story mode should focus on practical historical questions: how a traveler found patronage, how scholars moved between institutions, how ships connected the Indian Ocean, and how political danger shaped travel.',
+        'A good reading note separates observed detail from remembered dialogue and later editorial shaping. That distinction makes the adventure more useful, not less exciting.',
+        'Because the work crosses many regions, every chapter should carry place tags and route arrows.'
+      ],
+      sourceNote: 'Related map layers: pilgrimage routes, Indian Ocean ports and Delhi Sultanate context.'
+    },
+    {
+      page: 3,
+      heading: 'Reader activity',
+      dateRange: 'Map-based study',
+      body: [
+        'Choose three cities from the route and write one sentence for each: what institution, ruler, market or danger appears there?',
+        'Then compare the same place in another source or map. If the detail cannot be verified, label it as travel narrative rather than confirmed administrative history.',
+        'The goal is to enjoy the journey while keeping source discipline visible.'
+      ],
+      sourceNote: 'Citation starter: The Travels of Ibn Battuta, source catalog plus edition details.'
+    }
+  ],
+  'muqaddimah': [
+    {
+      page: 1,
+      heading: 'History as method',
+      dateRange: '1377 CE composition context',
+      body: [
+        'The Muqaddimah asks readers to test historical reports against social, economic and political conditions. In this reader, it belongs in a method room as much as a book room.',
+        'Key concepts include group solidarity, dynastic cycles, city life, taxation, craft, education and the causes of political rise and decline.',
+        'Read it beside actual dynastic timelines so the theory can be tested rather than admired in isolation.'
+      ],
+      sourceNote: 'Source record: Internet Archive catalog search for Ibn Khaldun Muqaddimah editions.'
+    },
+    {
+      page: 2,
+      heading: 'Questions for every paragraph',
+      dateRange: 'Historiography',
+      body: [
+        'What kind of evidence would confirm this claim? Is the author discussing nomadic power, urban administration, education, luxury, taxation or military organization?',
+        'The reader should let students tag claims by theme and then compare those tags with examples from Abbasid, Mamluk, Ottoman, Mughal or North African history.',
+        'This makes the text a working historical tool rather than a decorative quotation source.'
+      ],
+      sourceNote: 'Rights vary by translation; cite the exact edition used.'
+    }
+  ],
+  herodotus: [
+    {
+      page: 1,
+      heading: 'Inquiry, empire and war',
+      dateRange: '5th century BCE subject matter and composition',
+      body: [
+        'Herodotus mixes inquiry, travel memory, oral report, ethnography and war narrative. The reader should display Greek, Persian, Egyptian and wider Mediterranean context through maps and comparison notes.',
+        'The Persian Wars are central, but the work also preserves stories about customs, geography and political decisions. Some passages are stronger as cultural memory than as confirmed fact.',
+        'Read with map layers for the Aegean, Anatolia, Egypt and Persia.'
+      ],
+      sourceNote: 'Source record: Project Gutenberg public-domain edition record.'
+    },
+    {
+      page: 2,
+      heading: 'Using ancient sources carefully',
+      dateRange: 'Ancient history method',
+      body: [
+        'Do not remove the wonder from the text, but do not confuse wonder with verification. Mark hearsay, authorial judgment, geography and battle narrative separately.',
+        'A source-first interface makes ancient history more honest: the user can enjoy a story, inspect a claim and follow citations without leaving the reader.',
+        'Pair each major episode with a modern atlas and a primary-source note.'
+      ],
+      sourceNote: 'Public-domain source; still cite translator and edition.'
+    }
+  ]
+};
+
+export const getReaderPages = (book: Book) => readerPagesByBookId[book.id] ?? genericReaderPages(book);
+
+export type HistoricMapResource = {
+  id: string;
+  title: string;
+  period: string;
+  region: string;
+  description: string;
+  center: { lat: number; lng: number; zoom: number };
+  googleMapsUrl: string;
+  embedUrl: string;
+  historicMapUrl: string;
+  sourceLabel: string;
+};
+
+export const historicMapResources: HistoricMapResource[] = [
+  {
+    id: 'abbasid-baghdad',
+    title: 'Abbasid Baghdad and the round-city memory',
+    period: '762–1258 CE',
+    region: 'Iraq / Abbasid world',
+    description: 'Preview modern Baghdad in Google Maps while linking outward to open historic-map collections for Abbasid Iraq, the Tigris and medieval Islamic geography.',
+    center: { lat: 33.3152, lng: 44.3661, zoom: 6 },
+    googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=33.3152,44.3661',
+    embedUrl: 'https://www.google.com/maps?q=33.3152,44.3661&z=6&output=embed',
+    historicMapUrl: 'https://www.loc.gov/maps/?fa=location:iraq|subject:middle+east',
+    sourceLabel: 'Library of Congress map collections'
+  },
+  {
+    id: 'andalus-cordoba',
+    title: 'Cordoba, Al-Andalus and western Mediterranean routes',
+    period: '8th–15th centuries CE',
+    region: 'Iberia / Mediterranean',
+    description: 'Preview Cordoba and compare it with historic map collections for Spain, Andalusia and Mediterranean travel corridors.',
+    center: { lat: 37.8882, lng: -4.7794, zoom: 7 },
+    googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=37.8882,-4.7794',
+    embedUrl: 'https://www.google.com/maps?q=37.8882,-4.7794&z=7&output=embed',
+    historicMapUrl: 'https://www.davidrumsey.com/luna/servlet/view/search?q=Andalusia%20Cordoba',
+    sourceLabel: 'David Rumsey Map Collection search'
+  },
+  {
+    id: 'ibn-battuta-route',
+    title: 'Ibn Battuta travel-route study map',
+    period: '1325–1354 CE',
+    region: 'Tangier to Cairo, Mecca, Delhi and Indian Ocean',
+    description: 'Use the embedded modern map as a route anchor, then attach historical atlas links for medieval roads, pilgrimage routes and ports.',
+    center: { lat: 30.0444, lng: 31.2357, zoom: 4 },
+    googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=30.0444,31.2357',
+    embedUrl: 'https://www.google.com/maps?q=30.0444,31.2357&z=4&output=embed',
+    historicMapUrl: 'https://commons.wikimedia.org/wiki/Category:Maps_of_Ibn_Battuta_travels',
+    sourceLabel: 'Wikimedia Commons historic route maps'
+  }
+];
+
+export type UrduStory = {
+  id: string;
+  title: string;
+  era: string;
+  date: string;
+  location: string;
+  readingTime: string;
+  kind: 'واقعہ' | 'سفر' | 'شہر' | 'روایت';
+  sourceBasis: string;
+  paragraphs: string[];
+};
+
+export const urduStories: UrduStory[] = [
+  {
+    id: 'baghdad-library-night',
+    title: 'بغداد کی ایک علمی رات',
+    era: 'عباسی دور',
+    date: 'تیسری/نویں صدی عیسوی',
+    location: 'بغداد',
+    readingTime: '۵ منٹ',
+    kind: 'شہر',
+    sourceBasis: 'عباسی بغداد، کتب خانوں اور ترجمہ تحریک سے متعلق تاریخی مواد پر مبنی تعلیمی کہانی؛ سوانح نہیں۔',
+    paragraphs: [
+      'دجلہ کے کنارے شام اتر رہی تھی۔ بازار کی آوازیں مدھم ہو رہی تھیں مگر کاتبوں کی روشنیاں ابھی بجھی نہ تھیں۔ ایک نوجوان قاری نے اپنے استاد سے پوچھا کہ کتاب صرف لفظوں کا نام ہے یا سفر کا؟ استاد نے مسکرا کر کہا: کتاب وہ راستہ ہے جس پر پچھلے زمانوں کی آوازیں ہمارے شہر تک آتی ہیں۔',
+      'اس رات مجلس میں یونانی، فارسی اور عربی اصطلاحات پر بحث ہوئی۔ کسی نے ستاروں کا ذکر کیا، کسی نے طب کا، اور کسی نے پوچھا کہ تاریخ لکھتے وقت روایت اور مشاہدہ کیسے الگ کیے جائیں۔ جواب ملا: پہلے نام، جگہ اور تاریخ محفوظ کرو، پھر رائے قائم کرو۔',
+      'کہانی کا مقصد کسی ایک عالم کی سوانح بیان کرنا نہیں بلکہ بغداد کے علمی ماحول کو محسوس کرانا ہے؛ وہ ماحول جس میں ترجمہ، بحث، نقل نویسی اور اختلاف سب ایک ہی شہر کے روزمرہ علم کا حصہ تھے۔'
+    ]
+  },
+  {
+    id: 'cordoba-bridge-morning',
+    title: 'قرطبہ کے پل پر صبح',
+    era: 'اندلس',
+    date: 'چوتھی/دسویں صدی عیسوی',
+    location: 'قرطبہ',
+    readingTime: '۴ منٹ',
+    kind: 'شہر',
+    sourceBasis: 'اندلسی شہری زندگی، پل، بازار، مسجد اور کتابی ثقافت کے عمومی تاریخی تناظر پر مبنی کہانی؛ سوانح نہیں۔',
+    paragraphs: [
+      'صبح کے وقت پل پر قدموں کی چاپ گونج رہی تھی۔ ایک طرف کاریگر دکان کھول رہے تھے، دوسری طرف طالب علم کتابیں بغل میں دبائے درس کی طرف جا رہے تھے۔ شہر کی رونق صرف عمارتوں میں نہیں بلکہ راستوں، پانی، بازار اور مدرسوں کے ربط میں تھی۔',
+      'ایک مسافر نے دریا کے پار سے شہر کو دیکھا تو اسے لگا جیسے پتھر، پانی اور لفظ ایک ساتھ سانس لے رہے ہوں۔ مگر راوی نے فوراً یاد دلایا کہ ہر خوبصورت منظر کے پیچھے انتظام، محنت، ٹیکس، سیاست اور زمانے کی تبدیلی بھی ہوتی ہے۔',
+      'یہ کہانی قرطبہ کو ایک زندہ تاریخی جگہ کے طور پر پڑھنے کی دعوت دیتی ہے: نقشہ دیکھیں، تاریخ نوٹ کریں، پھر شہر کی روایت کو ماخذ کے ساتھ جوڑیں۔'
+    ]
+  },
+  {
+    id: 'traveler-caravan-choice',
+    title: 'قافلے کا مشکل فیصلہ',
+    era: 'قرون وسطیٰ کا سفر',
+    date: 'آٹھویں/چودھویں صدی عیسوی',
+    location: 'شمالی افریقہ سے مصر کی راہ',
+    readingTime: '۶ منٹ',
+    kind: 'سفر',
+    sourceBasis: 'رحلہ نگاری، حج کے راستوں، قافلوں اور مسافروں کے خطرات کے تاریخی تناظر پر مبنی تعلیمی کہانی؛ سوانح نہیں۔',
+    paragraphs: [
+      'قافلہ دو راستوں کے سامنے رکا۔ ایک راستہ چھوٹا تھا مگر پانی کم ملتا تھا؛ دوسرا لمبا تھا مگر کارواں سراؤں کی خبر بہتر تھی۔ سردار نے جلدی فیصلہ نہ کیا۔ اس نے اونٹوں کی حالت، مسافروں کی تعداد، موسم اور اگلے کنویں کا فاصلہ پوچھا۔',
+      'ایک نوجوان نے کہا کہ بہادری تیز چلنے میں ہے۔ بزرگ مسافر نے جواب دیا کہ تاریخ میں بہت سی ناکامیاں تیزی سے نہیں بلکہ بے خبری سے پیدا ہوئیں۔ راستہ وہ چنو جس کی خبر زیادہ معتبر ہو۔',
+      'یہ قصہ کسی ایک مشہور مسافر کی زندگی نہیں سناتا؛ یہ بتاتا ہے کہ سفر کی تاریخ میں نقشہ، موسم، پانی، خبر اور اجتماعی فیصلہ کتنے اہم تھے۔'
+    ]
+  },
+  {
+    id: 'indus-seal-reader',
+    title: 'مہر پر بنا ہوا نشان',
+    era: 'وادیٔ سندھ',
+    date: 'تقریباً 2600–1900 قبل مسیح',
+    location: 'موہنجو دڑو / ہڑپہ',
+    readingTime: '۵ منٹ',
+    kind: 'واقعہ',
+    sourceBasis: 'آثارِ قدیمہ، مہروں، شہری منصوبہ بندی اور غیر پڑھی گئی تحریر کے تناظر پر مبنی تعلیمی کہانی؛ سوانح نہیں۔',
+    paragraphs: [
+      'مٹی ہٹاتے ہوئے ایک چھوٹی سی مہر ہاتھ آئی۔ اس پر جانور کی شبیہ اور چند نشان تھے۔ مزدور نے اسے صرف خوبصورت چیز سمجھا، مگر محقق نے کہا کہ چھوٹی چیزیں کبھی کبھی بڑے سوال کھول دیتی ہیں۔',
+      'کیا یہ تجارت کی نشانی تھی؟ کسی خاندان یا ادارے کی علامت؟ یا کسی ایسی تحریر کا حصہ جسے ہم ابھی پڑھ نہیں سکتے؟ جواب یقینی نہیں تھا، اس لیے نوٹ بک میں امکان کو امکان ہی لکھا گیا۔',
+      'یہ کہانی بچوں اور بڑوں کو یاد دلاتی ہے کہ قدیم تاریخ میں خاموش شواہد بھی بولتے ہیں، مگر ہمیں ان کی آواز اپنی طرف سے گھڑنی نہیں چاہیے۔'
+    ]
+  }
 ];

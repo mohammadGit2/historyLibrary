@@ -135,14 +135,8 @@
 
     <section id="maps">
       <p class="eyebrow">Historical atlas</p>
-      <h2>Explore by Map</h2>
-      <div class="map card">
-        <span class="marker" style="left:20%; top:43%">Baghdad</span>
-        <span class="marker" style="left:42%; top:31%; background:var(--vellum)">Silk Road</span>
-        <span class="marker" style="left:12%; top:58%; background:var(--copper); color:white">Cairo</span>
-        <span class="marker" style="left:62%; top:52%">Delhi</span>
-        <div class="card" style="position:absolute; left:24px; right:24px; bottom:24px; padding:18px; background:rgba(7,17,31,.86)">Clickable cities, empire overlays, trade routes, scholarly journeys, pilgrimage routes and before/after comparisons are scaffolded for verified map data.</div>
-      </div>
+      <h2>Google Maps preview + historic map collections</h2>
+      <div class="grid cols-3" id="mapCards"></div>
     </section>
 
     <section>
@@ -158,9 +152,10 @@
     </section>
 
     <section id="urdu" class="rtl">
-      <p class="eyebrow">Urdu mode</p>
-      <h2>اردو کتب خانہ اور تاریخی مطالعہ</h2>
-      <div class="card tile"><p class="muted" style="font-size:1.25rem">RTL ترتیب، اردو تلاش، اردو خلاصے، نستعلیق طرز، اردو ٹائم لائن، لغت اور انگریزی/اردو ساتھ ساتھ مطالعہ کے لئے تیار۔</p><div class="chips" id="urduLabels"></div></div>
+      <p class="eyebrow">Urdu stories</p>
+      <h2>اردو تاریخی کہانیاں — سوانح نہیں</h2>
+      <div class="card tile"><p class="muted" style="font-size:1.25rem">یہ حصہ صرف واقعات، شہروں، سفر اور آثارِ قدیمہ کی مختصر کہانیوں کے لئے ہے؛ شخصیات کی سوانح عمری کے لئے نہیں۔</p><div class="chips" id="urduLabels"></div></div>
+      <div class="grid cols-3" id="urduStoryGrid" style="margin-top:24px"></div>
     </section>
 
     <section id="policy">
@@ -213,15 +208,28 @@
     const bookCard = (b, i) => card(`<img src="${svgCover(i,b[0])}" alt=""><span class="tag">${b[2]}</span><span class="tag">${b[5].includes('Metadata') ? 'metadata only' : b[5]}</span><h3>${b[0]}</h3><p class="muted">${b[1]} • ${b[3]}</p><p class="muted">Source: ${b[4]}</p>`, 'card tile book');
     document.getElementById('categories').innerHTML = categories.map((x) => card(`<h3>${x}</h3><p class="muted">Open ${x.toLowerCase()} records, maps, books and source notes.</p>`)).join('');
     document.getElementById('collections').innerHTML = collections.map((x) => card(`<h3>${x}</h3><p class="muted">Legal reading bundle with bibliography, timeline, maps and study roadmap.</p>`, 'parchment tile')).join('');
-    document.getElementById('bookDay').innerHTML = `${bookCard(books[3],3)}${card(`<p class="eyebrow">Open reading</p><h2>${books[3][0]}</h2><p class="muted">Author: ${books[3][1]} • Language: ${books[3][2]} • Source: ${books[3][4]}</p><p class="muted">Reader MVP includes page navigation, zoom, sepia/dark modes, citation copy, bookmarks placeholder and rights-aware downloads.</p><a class="button" href="#books">Read Now</a>`)}`;
+    document.getElementById('bookDay').innerHTML = `${bookCard(books[3],3)}${card(`<p class="eyebrow">Open reading</p><h2>${books[3][0]}</h2><p class="muted">Author: ${books[3][1]} • Language: ${books[3][2]} • Source: ${books[3][4]}</p><p class="muted">Reader mode now shows actual source-aware study pages with dates, places, evidence notes, citation starters and rights-aware downloads instead of generic copy.</p><a class="button" href="#books">Read Now</a>`)}`;
     document.getElementById('expandedBooks').innerHTML = books.slice(0, 12).map(bookCard).join('');
     const renderPersonalities = (items) => { document.getElementById('personalityGrid').innerHTML = items.slice(0, 9).map((p) => card(`<span class="tag">${p.role}</span><h3>${p.name}</h3><p class="muted">${p.era} • ${p.region}</p><p class="muted">${p.story}</p>`)).join(''); };
     const renderLegends = (items) => { document.getElementById('legendGrid').innerHTML = items.slice(0, 9).map((l) => card(`<span class="tag">${l.culture}</span><h3>${l.title}</h3><p class="muted"><strong>Label:</strong> ${l.note}</p><p class="muted">${l.hook}</p>`, 'parchment tile')).join(''); };
     renderPersonalities(personalityFallback);
     renderLegends(legendFallback);
     document.getElementById('timeline').innerHTML = ['3000 BCE Mesopotamia','2500 BCE Indus Valley','550 BCE Persia','27 BCE Rome','750 Abbasids','1206 Mongols','1299 Ottomans','1526 Mughals'].map((x) => card(`<div class="bar"></div><strong>${x}</strong>`, 'card event')).join('');
-    document.getElementById('imagesGrid').innerHTML = ['Digitized manuscript folio placeholder','Historical map source placeholder','Islamic architecture image placeholder'].map((x,i) => card(`<img src="${svgCover(i+8,x)}" alt="" style="width:100%;border-radius:20px;margin-bottom:14px"><h3>${x}</h3><p class="muted">Source, creator, license and attribution must be verified before publication.</p>`)).join('');
-    document.getElementById('urduLabels').innerHTML = ['تلاش کریں','کتب خانہ','اسلامی تاریخ','قدیم تاریخ','نقشے','مخطوطات','شخصیات','سلطنتیں','مکمل کہانی','حوالہ جات','مطالعہ شروع کریں'].map((x) => `<span class="chip">${x}</span>`).join('');
+    document.getElementById('imagesGrid').innerHTML = ['Digitized manuscript folio source lane','Historical map source lane','Islamic architecture image source lane'].map((x,i) => card(`<img src="${svgCover(i+8,x)}" alt="" style="width:100%;border-radius:20px;margin-bottom:14px"><h3>${x}</h3><p class="muted">Source, creator, license and attribution must be verified before publication.</p>`)).join('');
+    document.getElementById('urduLabels').innerHTML = ['تلاش کریں','اردو کہانیاں','اسلامی تاریخ','قدیم تاریخ','نقشے','مخطوطات','حوالہ جات','مطالعہ شروع کریں'].map((x) => `<span class="chip">${x}</span>`).join('');
+
+    const mapPreviewCards = [
+      ['Abbasid Baghdad','762–1258 CE','Google Maps preview centered on Baghdad with Library of Congress historic-map links for Iraq and the Middle East.','https://www.google.com/maps?q=33.3152,44.3661&z=6&output=embed','https://www.loc.gov/maps/?fa=location:iraq|subject:middle+east'],
+      ['Cordoba and Al-Andalus','8th–15th centuries CE','Modern Cordoba preview with historic-map search links for Andalusia and western Mediterranean context.','https://www.google.com/maps?q=37.8882,-4.7794&z=7&output=embed','https://www.davidrumsey.com/luna/servlet/view/search?q=Andalusia%20Cordoba'],
+      ['Ibn Battuta route anchor','1325–1354 CE','Cairo-centered route anchor for medieval pilgrimage, travel and Indian Ocean route study.','https://www.google.com/maps?q=30.0444,31.2357&z=4&output=embed','https://commons.wikimedia.org/wiki/Category:Maps_of_Ibn_Battuta_travels']
+    ];
+    document.getElementById('mapCards').innerHTML = mapPreviewCards.map((m) => card(`<iframe title="${m[0]}" src="${m[3]}" style="width:100%;height:240px;border:0;border-radius:20px" loading="lazy"></iframe><span class="tag">${m[1]}</span><h3>${m[0]}</h3><p class="muted">${m[2]}</p><a class="button" href="${m[4]}">Historic map source</a>`)).join('');
+    const urduStories = [
+      ['بغداد کی ایک علمی رات','تیسری/نویں صدی عیسوی','دجلہ کے کنارے شام اتر رہی تھی۔ بازار کی آوازیں مدھم ہو رہی تھیں مگر کاتبوں کی روشنیاں ابھی بجھی نہ تھیں۔ یہ کہانی شہر کے علمی ماحول کی ہے، کسی شخصیت کی سوانح نہیں۔'],
+      ['قرطبہ کے پل پر صبح','چوتھی/دسویں صدی عیسوی','صبح کے وقت پل پر قدموں کی چاپ گونج رہی تھی۔ شہر کی رونق عمارتوں کے ساتھ راستوں، پانی، بازار اور درس گاہوں کے ربط میں بھی تھی۔'],
+      ['مہر پر بنا ہوا نشان','تقریباً 2600–1900 قبل مسیح','مٹی ہٹاتے ہوئے ایک چھوٹی سی مہر ہاتھ آئی۔ محقق نے امکان کو امکان ہی لکھا، کیونکہ قدیم تاریخ میں خاموش شواہد پر اپنی آواز مسلط نہیں کرنی چاہیے۔']
+    ];
+    document.getElementById('urduStoryGrid').innerHTML = urduStories.map((story) => card(`<span class="tag">${story[1]}</span><h3>${story[0]}</h3><p class="muted">${story[2]}</p>`, 'parchment tile')).join('');
     document.getElementById('sourceModel').innerHTML = sourceItems.map((x,i) => card(`<strong>0${i+1}</strong>${x}`)).join('');
     async function loadArchiveData() {
       try {

@@ -8,13 +8,13 @@ The platform must not present fake AI-written history as original content. AI se
 
 ## MVP features
 
-- Premium archive homepage with hero search, quick categories, featured collections, book of the day, map preview, and timeline.
+- Premium archive homepage with hero search, quick categories, featured collections, book of the day, Google Maps/historic-map preview links, and timeline.
 - Local static archive data with 50 book/catalog records and 16 starter topics.
 - Search experience with alias matching for terms such as `Andalus`, `Harun Rashid`, `Mughal`, Urdu terms, and `Baghdad House Wisdom`.
 - Topic pages separating sources, summaries, story mode, timeline, books, maps/images, related people/places, and citations.
 - Book detail pages with metadata, license/rights status, table of contents, source links, and metadata-only warnings.
-- In-browser reader MVP with navigation, zoom, dark/sepia modes, thumbnails, local progress, citation copy, OCR search placeholder, and rights-aware download messaging.
-- Urdu mode with RTL layout and Urdu interface labels.
+- In-browser reader with navigation, zoom, dark/sepia modes, thumbnails, local progress, citation copy, text search, bookmarks, source notes, and real source-aware study pages instead of generic reader text.
+- Urdu mode with RTL layout, Urdu interface labels, and a dedicated stories-only section for events, cities, travel and archaeology rather than biographies.
 - Maps, images/manuscripts, timeline, people, places, collections, admin, sources, about, and license-policy pages.
 
 ## Open locally without installing packages
