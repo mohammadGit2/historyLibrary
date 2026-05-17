@@ -57,17 +57,36 @@ tsc --noEmit
 
 ## Deploy to Netlify from GitHub
 
-This repo includes a Netlify-ready static build and serverless function setup that does **not** require extra third-party modules for the function runtime.
+Use the standard Netlify Next.js settings for the main site. Netlify installs dependencies in its build container, so you do **not** need to install anything on your local PC before deploying from GitHub.
 
-1. Push the repository to GitHub.
-2. In Netlify, choose **Add new site → Import an existing project**.
-3. Select the GitHub repository.
-4. Netlify will read `netlify.toml` automatically:
-   - Build command: `node scripts/build-netlify.mjs`
-   - Publish directory: `dist`
-   - Functions directory: `netlify/functions`
-5. After deploy, open:
-   - Site: `https://YOUR-SITE.netlify.app/`
-   - Search function: `https://YOUR-SITE.netlify.app/api/archive-search?q=Abbasid`
+Recommended settings for the Netlify review screen:
 
-The Netlify function reads `public/archive-data.json` and returns source-safe books, ancient-history topics, great personalities, and clearly labeled legends/story traditions.
+```text
+Team: syedmuhamadbinali
+Project name: baitaltaareekh-Syedm
+Branch to deploy: main
+Base directory: leave empty
+Build command: npm run build
+Publish directory: .next
+Functions directory: netlify/functions
+Environment variables: none required for now
+```
+
+The repository includes `netlify.toml` with the same production build settings plus a redirect from `/api/archive-search` to the Netlify Function. The function reads `public/archive-data.json` and returns source-safe books, ancient-history topics, great personalities, and clearly labeled legends/story traditions.
+
+After deploy, open:
+
+```text
+https://baitaltaareekh-syedm.netlify.app/
+https://baitaltaareekh-syedm.netlify.app/api/archive-search?q=Abbasid
+```
+
+### Static fallback build
+
+If you ever want the dependency-free static preview instead of the full Next.js app, run this locally or in another hosting provider:
+
+```bash
+npm run netlify:build
+```
+
+That command copies `public/` into `dist/`. It is a fallback preview path only; the main Netlify deploy should use `npm run build` and `.next`.

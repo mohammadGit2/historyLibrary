@@ -1,2 +1,12 @@
-import { books, topics } from '@/lib/data'; import { BookCard, Section } from '@/components/Cards';
-export default function Collection({params}:{params:{slug:string}}){const title=params.slug.split('-').map(w=>w[0]?.toUpperCase()+w.slice(1)).join(' '); return <main><Section eyebrow="Reading bundle" title={title}><div className="archive-card mb-8 rounded-3xl p-6"><p className="text-vellum/75">A legal reading bundle: combined guide, bibliography, timeline, notes, maps and chapter roadmap. It does not merge copyrighted PDFs.</p></div><div className="grid gap-5 md:grid-cols-4">{books.slice(0,8).map(b=><BookCard key={b.id} book={b}/>)}</div></Section></main>}
+import { books } from '@/lib/data';
+import { BookCard, Section } from '@/components/Cards';
+
+type CollectionPageProps = {
+  params: Promise<{ slug: string }>;
+};
+
+export default async function Collection({ params }: CollectionPageProps) {
+  const { slug } = await params;
+  const title = slug.split('-').map((w) => w[0]?.toUpperCase() + w.slice(1)).join(' ');
+  return <main><Section eyebrow="Reading bundle" title={title}><div className="archive-card mb-8 rounded-3xl p-6"><p className="text-vellum/75">A legal reading bundle: combined guide, bibliography, timeline, notes, maps and chapter roadmap. It does not merge copyrighted PDFs.</p></div><div className="grid gap-5 md:grid-cols-4">{books.slice(0, 8).map((b) => <BookCard key={b.id} book={b} />)}</div></Section></main>;
+}

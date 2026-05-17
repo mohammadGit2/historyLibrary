@@ -1,6 +1,6 @@
 [build]
-  command = "node scripts/build-netlify.mjs"
-  publish = "dist"
+  command = "npm run build"
+  publish = ".next"
   functions = "netlify/functions"
 
 [functions]
@@ -10,9 +10,4 @@
 [[redirects]]
   from = "/api/archive-search"
   to = "/.netlify/functions/archive-search"
-  status = 200
-
-[[redirects]]
-  from = "/*"
-  to = "/local.html"
   status = 200
