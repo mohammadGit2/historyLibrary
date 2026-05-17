@@ -41,9 +41,11 @@ node scripts/local-server.mjs --port=3000
 
 ## Next.js development
 
-When package installation is available, run the full app with:
+When package installation is available, run the full app with Node 20:
 
 ```bash
+nvm install 20
+nvm use 20
 npm install
 npm run dev
 npm run build
@@ -71,6 +73,14 @@ Publish directory: .next
 Functions directory: netlify/functions
 Environment variables: none required for now
 ```
+
+Node is pinned to version 20 for Netlify in three places so Netlify does not select Node 22 during the build:
+
+- `.nvmrc` contains `20`.
+- `package.json` declares `"engines": { "node": ">=20 <21" }`.
+- `netlify.toml` sets `NODE_VERSION = "20"`.
+
+If the Netlify UI already has `NODE_VERSION` set to `22`, change it to `20` or delete it so the repository settings can apply.
 
 The repository includes `netlify.toml` with the same production build settings plus a redirect from `/api/archive-search` to the Netlify Function. The function reads `public/archive-data.json` and returns source-safe books, ancient-history topics, great personalities, and clearly labeled legends/story traditions.
 
